@@ -61,36 +61,36 @@
         /* Ambient Glow & Waves Animations */
         @keyframes wv {
             from {
-                transform: translateX(0)
+                transform: translateX(0);
             }
             to {
-                transform: translateX(-70px)
+                transform: translateX(-70px);
             }
         }
 
         @keyframes fl {
             0% {
                 transform: translateY(0);
-                opacity: 0
+                opacity: 0;
             }
             20% {
-                opacity: .9
+                opacity: .9;
             }
             100% {
                 transform: translateY(-50px);
-                opacity: 0
+                opacity: 0;
             }
         }
 
         @keyframes glow {
             0%,
             100% {
-                opacity: .75;
-                transform: scale(1)
+                opacity: 0.55;
+                transform: scale(0.98);
             }
             50% {
-                opacity: 1;
-                transform: scale(1.06)
+                opacity: 0.85;
+                transform: scale(1.04);
             }
         }
 
@@ -98,28 +98,6 @@
             0% { transform: scale(1); }
             50% { transform: scale(1.03); }
             100% { transform: scale(1); }
-        }
-
-        @keyframes fadeInScale {
-            from {
-                opacity: 0;
-                transform: translate(-50%, -20px) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translate(-50%, 0) scale(1);
-            }
-        }
-
-        @keyframes fadeOutScale {
-            from {
-                opacity: 1;
-                transform: translate(-50%, 0) scale(1);
-            }
-            to {
-                opacity: 0;
-                transform: translate(-50%, -15px) scale(0.95);
-            }
         }
 
         .w1 {
@@ -442,37 +420,41 @@
 
                     <!-- Water Droplet Progress Visual -->
                     <div id="droplet-container" class="water-container" title="Click to log a sip" style="position:relative;width:340px;height:330px;align-self:center;display:flex;align-items:center;justify-content:center;margin-top:-4px">
-                        <div class="gl" style="position:absolute;width:340px;height:340px;border-radius:170px;background:radial-gradient(circle,rgba(34,211,238,0.45) 0%,rgba(74,155,255,0.22) 45%,rgba(74,155,255,0) 70%)"></div>
+                        <div class="gl" style="position:absolute;width:340px;height:340px;border-radius:170px;background:radial-gradient(circle,rgba(34,211,238,0.35) 0%,rgba(74,155,255,0.18) 45%,rgba(74,155,255,0) 70%)"></div>
                         <svg id="droplet-svg" width="260" height="312" viewBox="0 0 200 240" role="img" aria-label="Water droplet filled 60 percent" style="position:relative;filter:drop-shadow(0 22px 26px rgba(30,111,224,0.38))">
                             <defs>
                                 <linearGradient id="wg" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="0" stop-color="#7CD0FF" />
-                                    <stop offset="0.5" stop-color="#2F86F0" />
-                                    <stop offset="1" stop-color="#0B4DB8" />
+                                    <stop offset="0%" stop-color="#7CD0FF" />
+                                    <stop offset="50%" stop-color="#2F86F0" />
+                                    <stop offset="100%" stop-color="#0B4DB8" />
                                 </linearGradient>
                                 <radialGradient id="gl2" cx="0.35" cy="0.3" r="0.9">
-                                    <stop offset="0" stop-color="#FFFFFF" />
-                                    <stop offset="1" stop-color="#CFE5FF" />
+                                    <stop offset="0%" stop-color="#FFFFFF" />
+                                    <stop offset="100%" stop-color="#CFE5FF" />
                                 </radialGradient>
                                 <clipPath id="dp">
-                                    <path d="M100 8C100 8 22 98 22 150a78 78 0 0 0 156 0C178 98 100 8 100 8z" />
+                                    <path d="M100 8 C100 8 22 98 22 150 a78 78 0 0 0 156 0 C178 98 100 8 100 8 Z" />
                                 </clipPath>
                             </defs>
-                            <path d="M100 8C100 8 22 98 22 150a78 78 0 0 0 156 0C178 98 100 8 100 8z" fill="url(#gl2)" stroke="#FFFFFF" stroke-width="3" />
+                            <!-- Droplet Glass Body -->
+                            <path d="M100 8 C100 8 22 98 22 150 a78 78 0 0 0 156 0 C178 98 100 8 100 8 Z" fill="url(#gl2)" stroke="#FFFFFF" stroke-width="3.5" />
+                            <!-- Clipped Water -->
                             <g clip-path="url(#dp)">
                                 <g id="water-wave-group" style="transform:translateY(96px); transition: transform 0.5s ease;">
                                     <g class="w2">
-                                        <path d="M-70 0q17.5-7 35 0t35 0t35 0t35 0t35 0t35 0t35 0t35 0V300H-70z" fill="#8FD6FF" opacity="0.6" />
+                                        <path d="M-140 0 q17.5 -7 35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 V340 H-140 Z" fill="#8FD6FF" opacity="0.6" />
                                     </g>
                                     <g class="w1">
-                                        <path d="M-70 6q17.5-7 35 0t35 0t35 0t35 0t35 0t35 0t35 0t35 0V300H-70z" fill="url(#wg)" />
+                                        <path d="M-140 6 q17.5 -7 35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 V340 H-140 Z" fill="url(#wg)" />
                                     </g>
                                 </g>
                                 <circle class="bb" cx="70" cy="205" r="4" fill="#FFFFFF" opacity="0.8" />
                                 <circle class="bb" cx="118" cy="195" r="3" fill="#FFFFFF" opacity="0.8" style="animation-delay:1s" />
                                 <circle class="bb" cx="95" cy="215" r="5" fill="#FFFFFF" opacity="0.8" style="animation-delay:2s" />
                             </g>
-                            <path d="M54 122C50 98 62 72 80 50" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" fill="none" opacity="0.75" />
+                            <!-- Specular Glass Highlights (on top of water) -->
+                            <path d="M56 126 C50 102 62 74 80 50" stroke="#FFFFFF" stroke-width="6.5" stroke-linecap="round" fill="none" opacity="0.85" />
+                            <circle cx="86" cy="40" r="3" fill="#FFFFFF" opacity="0.75" />
                             <text id="home-current-val" x="100" y="158" text-anchor="middle" font-family="Poppins" font-weight="700" font-size="34" fill="#FFFFFF">1,200</text>
                             <text x="100" y="180" text-anchor="middle" font-family="Poppins" font-weight="500" font-size="15" fill="#FFFFFF">ml</text>
                         </svg>
@@ -640,43 +622,59 @@
 
                     <!-- Interactive Tumbler SVG -->
                     <div id="bottle-container" class="water-container" title="Click to simulate sip from tumbler" style="position:relative;align-self:center;width:300px;height:360px;display:flex;align-items:center;justify-content:center">
-                        <div class="gl" style="position:absolute;width:300px;height:300px;border-radius:150px;background:radial-gradient(circle,rgba(34,211,238,0.35) 0%,rgba(74,155,255,0) 70%)"></div>
+                        <div class="gl" style="position:absolute;width:300px;height:300px;border-radius:150px;background:radial-gradient(circle,rgba(34,211,238,0.35) 0%,rgba(74,155,255,0.18) 45%,rgba(74,155,255,0) 70%)"></div>
                         <svg id="bottle-svg" width="270" height="350" viewBox="0 0 230 310" role="img" aria-label="Tumbler with 450 ml of 750 ml remaining" style="position:relative;filter:drop-shadow(0 20px 24px rgba(20,86,200,0.35))">
                             <defs>
                                 <linearGradient id="tw" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="0" stop-color="#7CD0FF" />
-                                    <stop offset="0.5" stop-color="#2F86F0" />
-                                    <stop offset="1" stop-color="#0B4DB8" />
+                                    <stop offset="0%" stop-color="#7CD0FF" />
+                                    <stop offset="50%" stop-color="#2F86F0" />
+                                    <stop offset="100%" stop-color="#0B4DB8" />
                                 </linearGradient>
-                                <clipPath id="tb" transform="translate(10,0)">
-                                    <path d="M52 70H148Q158 70 158 82V270Q158 296 132 296H68Q42 296 42 270V82Q42 70 52 70Z" />
+                                <clipPath id="tb">
+                                    <path d="M52 70 H148 Q158 70 158 82 V270 Q158 296 132 296 H68 Q42 296 42 270 V82 Q42 70 52 70 Z" />
                                 </clipPath>
                             </defs>
-                            <path d="M174 100h14a14 14 0 0 1 0 60h-14" fill="none" stroke="#FFFFFF" stroke-width="9" stroke-linecap="round" opacity="0.9" />
+                            
+                            <!-- Bottle Handle (connected at x=168) -->
+                            <path d="M168 102 h14 a20 20 0 0 1 20 20 v30 a20 20 0 0 1 -20 20 h-14" fill="none" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round" opacity="0.9" />
+
+                            <!-- Tumbler Main Body Group -->
                             <g transform="translate(10,0)">
-                                <path d="M52 70H148Q158 70 158 82V270Q158 296 132 296H68Q42 296 42 270V82Q42 70 52 70Z" fill="rgba(255,255,255,0.65)" stroke="#FFFFFF" stroke-width="3" />
-                            </g>
-                            <g clip-path="url(#tb)" transform="translate(10,0)">
+                                <!-- Bottle Glass Body Background -->
+                                <path d="M52 70 H148 Q158 70 158 82 V270 Q158 296 132 296 H68 Q42 296 42 270 V82 Q42 70 52 70 Z" fill="rgba(255,255,255,0.7)" stroke="#FFFFFF" stroke-width="3.5" />
+
+                                <!-- Clipped Water (Strictly within tumbler) -->
                                 <g clip-path="url(#tb)">
                                     <g id="bottle-wave-group" style="transform:translateY(156px); transition: transform 0.5s ease;">
                                         <g class="w2">
-                                            <path d="M-70 0q17.5-7 35 0t35 0t35 0t35 0t35 0t35 0t35 0t35 0V300H-70z" fill="#8FD6FF" opacity="0.6" />
+                                            <path d="M-140 0 q17.5 -7 35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 V340 H-140 Z" fill="#8FD6FF" opacity="0.6" />
                                         </g>
                                         <g class="w1">
-                                            <path d="M-70 5q17.5-7 35 0t35 0t35 0t35 0t35 0t35 0t35 0t35 0V300H-70z" fill="url(#tw)" />
+                                            <path d="M-140 5 q17.5 -7 35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 V340 H-140 Z" fill="url(#tw)" />
                                         </g>
                                     </g>
-                                    <circle class="bb" cx="80" cy="280" r="4" fill="#FFFFFF" opacity="0.8" />
-                                    <circle class="bb" cx="115" cy="270" r="3" fill="#FFFFFF" opacity="0.8" style="animation-delay:1s" />
+                                    <!-- Tumbler Bubbles -->
+                                    <circle class="bb" cx="78" cy="280" r="4" fill="#FFFFFF" opacity="0.8" />
+                                    <circle class="bb" cx="120" cy="270" r="3" fill="#FFFFFF" opacity="0.8" style="animation-delay:1s" />
+                                    <circle class="bb" cx="98" cy="284" r="3.5" fill="#FFFFFF" opacity="0.75" style="animation-delay:1.8s" />
                                 </g>
-                            </g>
-                            <g transform="translate(10,0)">
+
+                                <!-- Tumbler Cap / Lid -->
                                 <rect x="38" y="46" width="124" height="26" rx="10" fill="#1E6FE0" stroke="#FFFFFF" stroke-width="3" />
                                 <rect x="82" y="34" width="36" height="14" rx="6" fill="#4DB5FF" stroke="#FFFFFF" stroke-width="2" />
-                                <path d="M58 100C56 130 56 160 60 190" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" fill="none" opacity="0.8" />
-                            </g>
-                            <g stroke="#0B2A5B" stroke-width="1.5" opacity="0.55">
-                                <path d="M170 96h-8M170 156h-8M170 216h-8M170 276h-8" transform="translate(-12,0)" />
+
+                                <!-- Tumbler Gloss / Specular Highlights (on top of water) -->
+                                <path d="M58 96 C56 128 56 168 60 202" stroke="#FFFFFF" stroke-width="6.5" stroke-linecap="round" fill="none" opacity="0.85" />
+                                <path d="M58 218 C59 236 60 250 64 262" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.5" />
+                                <path d="M54 78 H146" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity="0.6" />
+
+                                <!-- Measurement ticks -->
+                                <g stroke="#0B2A5B" stroke-width="1.5" opacity="0.55">
+                                    <line x1="148" y1="96" x2="140" y2="96" />
+                                    <line x1="148" y1="156" x2="140" y2="156" />
+                                    <line x1="148" y1="216" x2="140" y2="216" />
+                                    <line x1="148" y1="270" x2="140" y2="270" />
+                                </g>
                             </g>
                         </svg>
                     </div>
