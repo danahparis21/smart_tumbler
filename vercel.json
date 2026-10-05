@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "name": "orbyte-smart-tumbler",
+  "cleanUrls": true,
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}

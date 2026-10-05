@@ -1,0 +1,1351 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#BFE0FF">
+    <meta name="description" content="Orbyte - Smart Tumbler companion prototype for intelligent hydration tracking.">
+    <title>Orbyte · Smart Hydration</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: #DCEBFA;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0B2A5B;
+            overflow-x: hidden;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        button,
+        input {
+            font-family: inherit;
+        }
+
+        button {
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.15s ease, background-color 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        button:active {
+            transform: scale(0.96);
+        }
+
+        a {
+            text-decoration: none;
+            user-select: none;
+            transition: transform 0.15s ease, background-color 0.2s ease;
+        }
+
+        a:active {
+            transform: scale(0.92);
+        }
+
+        /* Ambient Glow & Waves Animations */
+        @keyframes wv {
+            from {
+                transform: translateX(0)
+            }
+            to {
+                transform: translateX(-70px)
+            }
+        }
+
+        @keyframes fl {
+            0% {
+                transform: translateY(0);
+                opacity: 0
+            }
+            20% {
+                opacity: .9
+            }
+            100% {
+                transform: translateY(-50px);
+                opacity: 0
+            }
+        }
+
+        @keyframes glow {
+            0%,
+            100% {
+                opacity: .75;
+                transform: scale(1)
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.06)
+            }
+        }
+
+        @keyframes pulseSip {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, 0) scale(1);
+            }
+        }
+
+        @keyframes fadeOutScale {
+            from {
+                opacity: 1;
+                transform: translate(-50%, 0) scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: translate(-50%, -15px) scale(0.95);
+            }
+        }
+
+        .w1 {
+            animation: wv 3s linear infinite;
+        }
+
+        .w2 {
+            animation: wv 5s linear infinite reverse;
+        }
+
+        .bb {
+            animation: fl 3s ease-in infinite;
+        }
+
+        .gl {
+            animation: glow 4s ease-in-out infinite;
+        }
+
+        .droplet-pulse {
+            animation: pulseSip 0.4s ease-out;
+        }
+
+        /* App Container & Phone Mockup */
+        #app {
+            position: relative;
+            width: 390px;
+            height: 844px;
+            border-radius: 44px;
+            overflow: hidden;
+            box-shadow: 0 25px 60px -15px rgba(11, 42, 91, 0.35), 0 0 0 10px #0e274c, 0 0 0 12px #2f4f80;
+            background: #BFE0FF;
+        }
+
+        /* Screen Sections */
+        section {
+            display: none;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.22s ease-in-out;
+        }
+
+        section.on {
+            display: block;
+            opacity: 1;
+        }
+
+        section > div {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        /* Custom Scrollbars */
+        .screen-scroll {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .screen-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Focus Outlines */
+        a:focus-visible,
+        button:focus-visible,
+        input:focus-visible {
+            outline: 3px solid #0B2A5B;
+            outline-offset: 2px;
+        }
+
+        /* Interactive Switches */
+        .toggle-switch {
+            width: 44px;
+            height: 26px;
+            border-radius: 13px;
+            background: #C9DDF5;
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            transition: background 0.25s ease;
+            flex-shrink: 0;
+        }
+
+        .toggle-switch.active {
+            background: #1E6FE0;
+        }
+
+        .toggle-knob {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            border-radius: 10px;
+            background: #FFFFFF;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .toggle-switch.active .toggle-knob {
+            transform: translateX(18px);
+        }
+
+        /* Interactive Selectable Chips */
+        .chip-btn {
+            height: 44px;
+            padding: 0 16px;
+            border-radius: 22px;
+            border: 1.5px solid #C9DDF5;
+            background: #FFFFFF;
+            color: #0B2A5B;
+            font-size: 13px;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .chip-btn.active {
+            border: 1.5px solid #1E6FE0;
+            background: #E4F0FF;
+            color: #0B2A5B;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(30, 111, 224, 0.15);
+        }
+
+        /* Temperature Selector Buttons */
+        .temp-card {
+            flex: 1;
+            border-radius: 16px;
+            padding: 10px 6px;
+            text-align: center;
+            background: #FFFFFF;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .temp-card.active {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(11, 42, 91, 0.12);
+        }
+
+        .temp-card.cold.active {
+            background: #DCE8F3;
+            border-color: #1E6FE0;
+            color: #1E6FE0;
+        }
+
+        .temp-card.good.active {
+            background: #F6E6D5;
+            border-color: #7A4A1E;
+            color: #7A4A1E;
+        }
+
+        .temp-card.hot.active {
+            background: #F3DEDB;
+            border-color: #8A3F36;
+            color: #8A3F36;
+        }
+
+        /* History Chart Bars */
+        .history-bar-col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            justify-content: flex-end;
+            cursor: pointer;
+            padding: 4px 0;
+            border-radius: 8px;
+            transition: background 0.15s ease;
+        }
+
+        .history-bar-col:hover {
+            background: rgba(30, 111, 224, 0.08);
+        }
+
+        .history-bar {
+            width: 100%;
+            max-width: 28px;
+            border-radius: 8px;
+            background: #8FC4FF;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .history-bar-col.active .history-bar {
+            background: #1E6FE0;
+            transform: scaleY(1.04);
+            box-shadow: 0 4px 10px rgba(30, 111, 224, 0.35);
+        }
+
+        /* Settings Rows */
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 48px;
+            border-bottom: 1px solid #E4F0FF;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.15s ease;
+            padding: 0 4px;
+            border-radius: 8px;
+        }
+
+        .setting-row:last-child {
+            border-bottom: none;
+        }
+
+        .setting-row:hover {
+            background-color: rgba(228, 240, 255, 0.4);
+        }
+
+        /* Interactive Toast Banner */
+        #toast {
+            position: absolute;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(11, 42, 91, 0.94);
+            color: #FFFFFF;
+            padding: 10px 18px;
+            border-radius: 24px;
+            font-size: 13px;
+            font-weight: 500;
+            box-shadow: 0 8px 24px rgba(11, 42, 91, 0.35);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 1000;
+            pointer-events: none;
+            opacity: 0;
+            transition: all 0.25s ease;
+            backdrop-filter: blur(8px);
+            max-width: 88%;
+            text-align: center;
+        }
+
+        #toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(10px);
+        }
+
+        /* Quick Sip Ripple FX */
+        .water-container {
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .water-container:active {
+            transform: scale(0.97);
+        }
+
+        /* Mobile Viewport Fit */
+        @media (max-width: 500px) {
+            body {
+                display: block;
+                background: #E6F2FF;
+            }
+
+            #app {
+                width: 100vw;
+                height: 100vh;
+                height: 100dvh;
+                border-radius: 0;
+                box-shadow: none;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main id="app">
+        <!-- Toast Notification Banner -->
+        <div id="toast" role="alert" aria-live="polite">
+            <span id="toast-icon">✨</span>
+            <span id="toast-msg">Orbyte Tumbler Connected</span>
+        </div>
+
+        <!-- SECTION 1: HOME -->
+        <section id="home" aria-label="Home" class="on">
+            <div style="box-sizing:border-box;background:linear-gradient(180deg,#BFE0FF 0%,#E6F2FF 40%,#F2F8FF 100%);font-family:Poppins,sans-serif;color:#0B2A5B;position:relative;overflow:hidden">
+                <div style="position:absolute;top:-60px;right:-50px;width:200px;height:200px;border-radius:100px;background:rgba(255,255,255,0.45);pointer-events:none"></div>
+                <div class="screen-scroll" style="position:absolute;inset:0;overflow-y:auto;box-sizing:border-box;padding:52px 24px 100px;display:flex;flex-direction:column;gap:14px">
+                    <div style="display:flex;justify-content:space-between;align-items:center;position:relative">
+                        <div>
+                            <h1 style="margin:0;font-size:28px;font-weight:700;line-height:1.2">Stay hydrated</h1>
+                            <div style="font-size:14px;color:#2F4F80" id="home-date">Monday, 5 October</div>
+                        </div>
+                        <button id="btn-notification" aria-label="Hydration reminders" style="position:relative;width:48px;height:48px;border-radius:24px;border:0;background:#FFFFFF;color:#1E6FE0;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(30,111,224,0.25)">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1E6FE0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0" />
+                            </svg>
+                            <span id="notif-badge" style="position:absolute;top:10px;right:11px;width:10px;height:10px;border-radius:5px;background:#D9822B;border:2px solid #FFFFFF"></span>
+                        </button>
+                    </div>
+
+                    <!-- Weather Banner -->
+                    <div id="weather-banner" style="background:#FFFFFF;border-radius:20px;box-shadow:0 8px 24px rgba(30,111,224,0.12);padding:10px 14px;display:flex;gap:12px;align-items:center;position:relative;cursor:pointer">
+                        <div style="width:36px;height:36px;border-radius:18px;background:#FFE7CC;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B85C00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <circle cx="12" cy="9" r="3.6" />
+                                <path d="M12 1.5v2M12 14.5v2M4.5 9h2M17.5 9h2M6.7 3.7l1.4 1.4M15.9 12.9l1.4 1.4M17.3 3.7l-1.4 1.4M8.1 12.9l-1.4 1.4" />
+                                <path d="M3 19.5c1.5-1.8 3-1.8 4.5 0s3 1.8 4.5 0 3-1.8 4.5 0 3 1.8 4.5 0" />
+                                <path d="M3 23c1.5-1.8 3-1.8 4.5 0s3 1.8 4.5 0 3-1.8 4.5 0 3 1.8 4.5 0" />
+                            </svg>
+                        </div>
+                        <div style="font-size:13px;line-height:1.35">
+                            <b style="font-size:14px">34°C, very hot today.</b><br>
+                            Time for a sip. Tap droplet to log!
+                        </div>
+                    </div>
+
+                    <!-- Water Droplet Progress Visual -->
+                    <div id="droplet-container" class="water-container" title="Click to log a sip" style="position:relative;width:340px;height:330px;align-self:center;display:flex;align-items:center;justify-content:center;margin-top:-4px">
+                        <div class="gl" style="position:absolute;width:340px;height:340px;border-radius:170px;background:radial-gradient(circle,rgba(34,211,238,0.45) 0%,rgba(74,155,255,0.22) 45%,rgba(74,155,255,0) 70%)"></div>
+                        <svg id="droplet-svg" width="260" height="312" viewBox="0 0 200 240" role="img" aria-label="Water droplet filled 60 percent" style="position:relative;filter:drop-shadow(0 22px 26px rgba(30,111,224,0.38))">
+                            <defs>
+                                <linearGradient id="wg" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0" stop-color="#7CD0FF" />
+                                    <stop offset="0.5" stop-color="#2F86F0" />
+                                    <stop offset="1" stop-color="#0B4DB8" />
+                                </linearGradient>
+                                <radialGradient id="gl2" cx="0.35" cy="0.3" r="0.9">
+                                    <stop offset="0" stop-color="#FFFFFF" />
+                                    <stop offset="1" stop-color="#CFE5FF" />
+                                </radialGradient>
+                                <clipPath id="dp">
+                                    <path d="M100 8C100 8 22 98 22 150a78 78 0 0 0 156 0C178 98 100 8 100 8z" />
+                                </clipPath>
+                            </defs>
+                            <path d="M100 8C100 8 22 98 22 150a78 78 0 0 0 156 0C178 98 100 8 100 8z" fill="url(#gl2)" stroke="#FFFFFF" stroke-width="3" />
+                            <g clip-path="url(#dp)">
+                                <g id="water-wave-group" style="transform:translateY(96px); transition: transform 0.5s ease;">
+                                    <g class="w2">
+                                        <path d="M-70 0q17.5-7 35 0t35 0t35 0t35 0t35 0t35 0t35 0t35 0V300H-70z" fill="#8FD6FF" opacity="0.6" />
+                                    </g>
+                                    <g class="w1">
+                                        <path d="M-70 6q17.5-7 35 0t35 0t35 0t35 0t35 0t35 0t35 0t35 0V300H-70z" fill="url(#wg)" />
+                                    </g>
+                                </g>
+                                <circle class="bb" cx="70" cy="205" r="4" fill="#FFFFFF" opacity="0.8" />
+                                <circle class="bb" cx="118" cy="195" r="3" fill="#FFFFFF" opacity="0.8" style="animation-delay:1s" />
+                                <circle class="bb" cx="95" cy="215" r="5" fill="#FFFFFF" opacity="0.8" style="animation-delay:2s" />
+                            </g>
+                            <path d="M54 122C50 98 62 72 80 50" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" fill="none" opacity="0.75" />
+                            <text id="home-current-val" x="100" y="158" text-anchor="middle" font-family="Poppins" font-weight="700" font-size="34" fill="#FFFFFF">1,200</text>
+                            <text x="100" y="180" text-anchor="middle" font-family="Poppins" font-weight="500" font-size="15" fill="#FFFFFF">ml</text>
+                        </svg>
+                    </div>
+
+                    <div style="text-align:center;margin-top:-10px;position:relative">
+                        <div id="home-progress-title" style="font-size:18px;font-weight:700">60% of your 2,400 ml goal</div>
+                        <div id="home-remaining-text" style="font-size:14px;color:#2F4F80">1,200 ml to go</div>
+                    </div>
+
+                    <div style="display:flex;gap:12px;position:relative">
+                        <div style="flex:1;background:#FFFFFF;border-radius:20px;box-shadow:0 8px 24px rgba(30,111,224,0.12);padding:10px 14px">
+                            <div style="font-size:12px;color:#2F4F80">Last sip detected</div>
+                            <div id="home-last-sip" style="font-size:15px;font-weight:600">2:10 PM</div>
+                        </div>
+                        <div style="flex:1;background:#FFFFFF;border-radius:20px;box-shadow:0 8px 24px rgba(30,111,224,0.12);padding:10px 14px">
+                            <div style="font-size:12px;color:#2F4F80">Next reminder</div>
+                            <div style="font-size:15px;font-weight:600">3:30 PM</div>
+                        </div>
+                    </div>
+
+                    <div style="display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px;color:#2F4F80">
+                        <span style="width:8px;height:8px;border-radius:4px;background:#2E9E6B"></span>
+                        Auto-tracked from your Orbyte tumbler
+                    </div>
+                </div>
+
+                <!-- Navigation Bar -->
+                <nav class="app-nav" aria-label="Main" style="position:absolute;left:20px;right:20px;bottom:16px;height:64px;background:#FFFFFF;border-radius:32px;display:flex;justify-content:space-around;align-items:center;box-shadow:0 10px 30px rgba(11,42,91,0.2);z-index:50">
+                    <a href="#home" data-tab="home" aria-label="Home" style="width:48px;height:48px;border-radius:24px;display:flex;align-items:center;justify-content:center;color:#1E6FE0;background:#E4F0FF">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" /></svg>
+                    </a>
+                    <a href="#goal" data-tab="goal" aria-label="Goal" style="width:48px;height:48px;border-radius:24px;display:flex;align-items:center;justify-content:center;color:#4D6A96;background:transparent">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="5" /><circle cx="12" cy="12" r="1.2" /></svg>
+                    </a>
+                    <a href="#bottle" data-tab="bottle" aria-label="Bottle" style="width:64px;height:64px;margin-top:-30px;border-radius:32px;background:linear-gradient(135deg,#4DB5FF,#1456C8);border:4px solid #EAF4FF;display:flex;align-items:center;justify-content:center;color:#FFFFFF;box-shadow:0 12px 24px rgba(20,86,200,0.45)">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5C12 2.5 5 10 5 15a7 7 0 0 0 14 0c0-5-7-12.5-7-12.5z" /></svg>
+                    </a>
+                    <a href="#history" data-tab="history" aria-label="History" style="width:48px;height:48px;border-radius:24px;display:flex;align-items:center;justify-content:center;color:#4D6A96;background:transparent">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" /></svg>
+                    </a>
+                    <a href="#settings" data-tab="settings" aria-label="Settings" style="width:48px;height:48px;border-radius:24px;display:flex;align-items:center;justify-content:center;color:#4D6A96;background:transparent">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" /><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" /></svg>
+                    </a>
+                </nav>
+            </div>
+        </section>
+
+        <!-- SECTION 2: GOAL -->
+        <section id="goal" aria-label="Goal">
+            <div style="box-sizing:border-box;background:linear-gradient(180deg,#BFE0FF 0%,#E6F2FF 40%,#F2F8FF 100%);font-family:Poppins,sans-serif;color:#0B2A5B;position:relative;overflow:hidden">
+                <div style="position:absolute;top:-60px;right:-50px;width:200px;height:200px;border-radius:100px;background:rgba(255,255,255,0.45);pointer-events:none"></div>
+                <div class="screen-scroll" style="position:absolute;inset:0;overflow-y:auto;box-sizing:border-box;padding:52px 24px 100px;display:flex;flex-direction:column;gap:14px">
+                    <div style="display:flex;justify-content:space-between;align-items:center;position:relative">
+                        <div>
+                            <h1 style="margin:0;font-size:28px;font-weight:700;line-height:1.2">Your goal</h1>
+                            <div style="font-size:14px;color:#2F4F80">How much water should I drink?</div>
+                        </div>
+                    </div>
+
+                    <!-- Recommended Banner -->
+                    <div style="border-radius:24px;padding:18px;background:linear-gradient(135deg,#3C9BFF,#1456C8);color:#FFFFFF;box-shadow:0 14px 28px rgba(20,86,200,0.35)">
+                        <div style="font-size:13px;font-weight:500">Recommended for you</div>
+                        <div id="goal-hero-target" style="font-size:40px;font-weight:700;line-height:1.2">2,400 <span style="font-size:18px">ml / day</span></div>
+                        <div id="goal-hero-desc" style="font-size:14px">About 10 glasses (240 ml each), adjusted for your size and hot weather.</div>
+                    </div>
+
+                    <!-- Personal Metrics Form -->
+                    <div style="background:#FFFFFF;border-radius:20px;box-shadow:0 8px 24px rgba(30,111,224,0.12);padding:16px;display:flex;flex-direction:column;gap:14px">
+                        <div style="font-size:16px;font-weight:600">About you</div>
+                        <div style="display:flex;gap:12px">
+                            <div style="flex:1">
+                                <label for="Height" style="font-size:12px;color:#2F4F80">Height</label>
+                                <div style="display:flex;align-items:center;gap:6px;height:48px;border-radius:14px;background:#F2F8FF;padding:0 12px;margin-top:4px">
+                                    <input id="Height" type="number" value="165" style="border:0;background:none;width:100%;font-size:16px;font-weight:600;color:#0B2A5B;outline:none">
+                                    <span style="font-size:13px;color:#2F4F80">cm</span>
+                                </div>
+                            </div>
+                            <div style="flex:1">
+                                <label for="Weight" style="font-size:12px;color:#2F4F80">Weight</label>
+                                <div style="display:flex;align-items:center;gap:6px;height:48px;border-radius:14px;background:#F2F8FF;padding:0 12px;margin-top:4px">
+                                    <input id="Weight" type="number" value="58" style="border:0;background:none;width:100%;font-size:16px;font-weight:600;color:#0B2A5B;outline:none">
+                                    <span style="font-size:13px;color:#2F4F80">kg</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Activity Level Selector -->
+                        <div>
+                            <div style="font-size:12px;color:#2F4F80;margin-bottom:6px">Activity level</div>
+                            <div class="chip-group" data-group="activity" style="display:flex;gap:8px;flex-wrap:wrap">
+                                <button class="chip-btn" data-val="light">Light</button>
+                                <button class="chip-btn active" data-val="moderate">Moderate</button>
+                                <button class="chip-btn" data-val="active">Active</button>
+                            </div>
+                        </div>
+
+                        <!-- Health Considerations -->
+                        <div>
+                            <div style="font-size:12px;color:#2F4F80;margin-bottom:6px">Health considerations</div>
+                            <div class="chip-group" data-group="health" style="display:flex;gap:8px;flex-wrap:wrap">
+                                <button class="chip-btn active" data-val="none">None</button>
+                                <button class="chip-btn" data-val="kidney">Kidney</button>
+                                <button class="chip-btn" data-val="heart">Heart</button>
+                                <button class="chip-btn" data-val="diabetes">Diabetes</button>
+                                <button class="chip-btn" data-val="pregnant">Pregnant / nursing</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Target Adjuster -->
+                    <div style="background:#FFFFFF;border-radius:20px;box-shadow:0 8px 24px rgba(30,111,224,0.12);padding:16px;display:flex;align-items:center;justify-content:space-between">
+                        <div>
+                            <div style="font-size:16px;font-weight:600">My daily target</div>
+                            <div id="goal-target-sub" style="font-size:13px;color:#2F4F80">10 glasses · 2,400 ml</div>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:10px">
+                            <button id="btn-minus-goal" aria-label="Fewer glasses" style="width:44px;height:44px;border-radius:22px;border:1.5px solid #1E6FE0;background:#FFFFFF;color:#1E6FE0;font-size:22px;display:flex;align-items:center;justify-content:center">−</button>
+                            <button id="btn-plus-goal" aria-label="More glasses" style="width:44px;height:44px;border-radius:22px;border:0;background:#1E6FE0;color:#FFFFFF;font-size:22px;display:flex;align-items:center;justify-content:center">+</button>
+                        </div>
+                    </div>
+
+                    <!-- Save Goal Button -->
+                    <button id="btn-save-goal" style="height:56px;border:0;border-radius:28px;background:linear-gradient(135deg,#3C9BFF,#1456C8);color:#FFFFFF;font-size:16px;font-weight:600;box-shadow:0 12px 24px rgba(20,86,200,0.4)">
+                        Save my goal
+                    </button>
+
+                    <div style="font-size:12px;color:#2F4F80;text-align:center">
+                        This is a guide, not medical advice. If you have a health condition, ask your doctor about your water intake.
+                    </div>
+                </div>
+
+                <!-- Shared Nav Bar -->
+                <nav class="app-nav" aria-label="Main" style="position:absolute;left:20px;right:20px;bottom:16px;height:64px;background:#FFFFFF;border-radius:32px;display:flex;justify-content:space-around;align-items:center;box-shadow:0 10px 30px rgba(11,42,91,0.2);z-index:50">
+                    <a href="#home" data-tab="home" aria-label="Home" style="width:48px;height:48px;border-radius:24px;display:flex;align-items:center;justify-content:center;color:#4D6A96;background:transparent">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" /></svg>
+                    </a>
+                    <a href="#goal" data-tab="goal" aria-label="Goal" style="width:48px;height:48px;border-radius:24px;display:flex;align-items:center;justify-content:center;color:#1E6FE0;background:#E4F0FF">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="5" /><circle cx="12" cy="12" r="1.2" /></svg>
+                    </a>
+                    <a href="#bottle" data-tab="bottle" aria-label="Bottle" style="width:64px;height:64px;margin-top:-30px;border-radius:32px;background:linear-gradient(135deg,#4DB5FF,#1456C8);border:4px solid #EAF4FF;display:flex;align-items:center;justify-content:center;color:#FFFFFF;box-shadow:0 12px 24px rgba(20,86,200,0.45)">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5C12 2.5 5 10 5 15a7 7 0 0 0 14 0c0-5-7-12.5-7-12.5z" /></svg>
+                    </a>
+                    <a href="#history" data-tab="history" aria-label="History" style="width:48px;height:48px;border-radius:24px;display:flex;align-items:center;justify-content:center;color:#4D6A96;background:transparent">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" /></svg>
+                    </a>
+                    <a href="#settings" data-tab="settings" aria-label="Settings" style="width:48px;height:48px;border-radius:24px;display:flex;align-items:center;justify-content:center;color:#4D6A96;background:transparent">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" /><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" /></svg>
+                    </a>
+                </nav>
+            </div>
+        </section>
+
+        <!-- SECTION 3: BOTTLE -->
+        <section id="bottle" aria-label="Bottle">
+            <div style="box-sizing:border-box;background:linear-gradient(180deg,#BFE0FF 0%,#E6F2FF 40%,#F2F8FF 100%);font-family:Poppins,sans-serif;color:#0B2A5B;position:relative;overflow:hidden">
+                <div style="position:absolute;top:-60px;right:-50px;width:200px;height:200px;border-radius:100px;background:rgba(255,255,255,0.45);pointer-events:none"></div>
+                <div class="screen-scroll" style="position:absolute;inset:0;overflow-y:auto;box-sizing:border-box;padding:52px 24px 100px;display:flex;flex-direction:column;gap:14px">
+                    <div style="display:flex;justify-content:space-between;align-items:center;position:relative">
+                        <div>
+                            <h1 style="margin:0;font-size:28px;font-weight:700;line-height:1.2">My Orbyte</h1>
+                            <div style="font-size:14px;color:#2F4F80">Live from your tumbler</div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Tumbler SVG -->
+                    <div id="bottle-container" class="water-container" title="Click to simulate sip from tumbler" style="position:relative;align-self:center;width:300px;height:360px;display:flex;align-items:center;justify-content:center">
+                        <div class="gl" style="position:absolute;width:300px;height:300px;border-radius:150px;background:radial-gradient(circle,rgba(34,211,238,0.35) 0%,rgba(74,155,255,0) 70%)"></div>
+                        <svg id="bottle-svg" width="270" height="350" viewBox="0 0 230 310" role="img" aria-label="Tumbler with 450 ml of 750 ml remaining" style="position:relative;filter:drop-shadow(0 20px 24px rgba(20,86,200,0.35))">
+                            <defs>
+                                <linearGradient id="tw" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0" stop-color="#7CD0FF" />
+                                    <stop offset="0.5" stop-color="#2F86F0" />
+                                    <stop offset="1" stop-color="#0B4DB8" />
+                                </linearGradient>
+                                <clipPath id="tb" transform="translate(10,0)">
+                                    <path d="M52 70H148Q158 70 158 82V270Q158 296 132 296H68Q42 296 42 270V82Q42 70 52 70Z" />
+                                </clipPath>
+                            </defs>
+                            <path d="M174 100h14a14 14 0 0 1 0 60h-14" fill="none" stroke="#FFFFFF" stroke-width="9" stroke-linecap="round" opacity="0.9" />
+                            <g transform="translate(10,0)">
+                                <path d="M52 70H148Q158 70 158 82V270Q158 296 132 296H68Q42 296 42 270V82Q42 70 52 70Z" fill="rgba(255,255,255,0.65)" stroke="#FFFFFF" stroke-width="3" />
+                            </g>
+                            <g clip-path="url(#tb)" transform="translate(10,0)">
+                                <g clip-path="url(#tb)">
+                                    <g id="bottle-wave-group" style="transform:translateY(156px); transition: transform 0.5s ease;">
+                                        <g class="w2">
+                                            <path d="M-70 0q17.5-7 35 0t35 0t35 0t35 0t35 0t35 0t35 0t35 0V300H-70z" fill="#8FD6FF" opacity="0.6" />
+                                        </g>
+                                        <g class="w1">
+                                            <path d="M-70 5q17.5-7 35 0t35 0t35 0t35 0t35 0t35 0t35 0t35 0V300H-70z" fill="url(#tw)" />
+                                        </g>
+                                    </g>
+                                    <circle class="bb" cx="80" cy="280" r="4" fill="#FFFFFF" opacity="0.8" />
+                                    <circle class="bb" cx="115" cy="270" r="3" fill="#FFFFFF" opacity="0.8" style="animation-delay:1s" />
+                                </g>
+                            </g>
+                            <g transform="translate(10,0)">
+                                <rect x="38" y="46" width="124" height="26" rx="10" fill="#1E6FE0" stroke="#FFFFFF" stroke-width="3" />
+                                <rect x="82" y="34" width="36" height="14" rx="6" fill="#4DB5FF" stroke="#FFFFFF" stroke-width="2" />
+                                <path d="M58 100C56 130 56 160 60 190" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" fill="none" opacity="0.8" />
+                            </g>
+                            <g stroke="#0B2A5B" stroke-width="1.5" opacity="0.55">
+                                <path d="M170 96h-8M170 156h-8M170 216h-8M170 276h-8" transform="translate(-12,0)" />
+                            </g>
+                        </svg>
+                    </div>
+
+                    <div style="text-align:center;margin-top:-16px;position:relative">
+                        <div style="font-size:12px;color:#2F4F80">Water remaining in tumbler</div>
+                        <div id="bottle-vol-text" style="font-size:40px;font-weight:700;line-height:1.1">450 <span style="font-size:18px">ml</span></div>
+                        <div id="bottle-percent-text" style="font-size:14px;color:#2F4F80">60% of 750 ml</div>
+                    </div>
+
+                    <!-- Temperature Live Status Card -->
+                    <div id="temp-status-card" style="background:#FFFFFF;border-radius:20px;box-shadow:0 8px 24px rgba(30,111,224,0.12);padding:14px 16px;display:flex;align-items:center;gap:14px;transition:all 0.3s ease">
+                        <div id="temp-icon-wrapper" style="width:56px;height:56px;border-radius:28px;background:#F6E6D5;color:#7A4A1E;display:flex;align-items:center;justify-content:center;transition:background 0.3s ease">
+                            <svg id="temp-icon-svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17.5 19H8a4 4 0 0 1-.6-7.96A5.5 5.5 0 0 1 18 9.5 4.8 4.8 0 0 1 17.5 19z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div style="font-size:12px;color:#2F4F80">Water temperature</div>
+                            <div id="temp-val-display" style="font-size:24px;font-weight:700;line-height:1.2">24°C</div>
+                            <div id="temp-label-display" style="font-size:14px;font-weight:600;color:#7A4A1E">Just Right</div>
+                        </div>
+                    </div>
+
+                    <!-- Temperature Filter / Simulator Pills -->
+                    <div style="display:flex;gap:8px">
+                        <div class="temp-card cold" data-temp="12" data-label="Cold" data-sub="Below 15°C" data-color="#1E6FE0" data-bg="#DCE8F3" style="color:#32587F">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2v20M3.3 7l17.4 10M3.3 17L20.7 7M9.5 3.8L12 6.3l2.5-2.5M9.5 20.2L12 17.7l2.5 2.5" />
+                            </svg>
+                            <div style="font-size:12px;font-weight:600">Cold</div>
+                            <div style="font-size:11px">Below 15°C</div>
+                        </div>
+                        <div class="temp-card good active" data-temp="24" data-label="Just Right" data-sub="15–35°C" data-color="#7A4A1E" data-bg="#F6E6D5" style="color:#7A4A1E">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17.5 19H8a4 4 0 0 1-.6-7.96A5.5 5.5 0 0 1 18 9.5 4.8 4.8 0 0 1 17.5 19z" />
+                            </svg>
+                            <div style="font-size:12px;font-weight:600">Just Right</div>
+                            <div style="font-size:11px">15–35°C</div>
+                        </div>
+                        <div class="temp-card hot" data-temp="42" data-label="Hot" data-sub="Above 35°C" data-color="#8A3F36" data-bg="#F3DEDB" style="color:#8A3F36">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="9" r="3.6" />
+                                <path d="M12 1.5v2M12 14.5v2M4.5 9h2M17.5 9h2M6.7 3.7l1.4 1.4M15.9 12.9l1.4 1.4M17.3 3.7l-1.4 1.4M8.1 12.9l-1.4 1.4" />
+                                <path d="M3 19.5c1.5-1.8 3-1.8 4.5 0s3 1.8 4.5 0 3-1.8 4.5 0 3 1.8 4.5 0" />
+                                <path d="M3 23c1.5-1.8 3-1.8 4.5 0s3 1.8 4.5 0 3-1.8 4.5 0 3 1.8 4.5 0" />
+                            </svg>
+                            <div style="font-size:12px;font-weight:600">Hot</div>
+                            <div style="font-size:11px">Above 35°C</div>
+                        </div>
+                    </div>
+
+                    <div style="display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px;color:#2F4F80">
+                        <span style="width:8px;height:8px;border-radius:4px;background:#2E9E6B"></span>
+                        Connected · updated just now
+                    </div>
+                </div>
+
+                <!-- Nav Bar -->
+                <nav class="app-nav" aria-label="Main" style="position:absolute;left:20px;right:20px;bottom:16px;height:64px;background:#FFFFFF;border-radius:32px;display:flex;justify-content:space-around;align-items:center;box-shadow:0 10px 30px rgba(11,42,91,0.2);z-index:50">
+                    <a href="#home" data-tab="home" aria-label="Home" style="width:48px;height:48px;border-radius:24px;display:flex;align-items:center;justify-content:center;color:#4D6A96;background:transparent">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" /></svg>
+                    </a>
+                    <a href="#goal" data-tab="goal" aria-label="Goal" style="width:48px;height:48px;border-radius:24px;display:flex;align-items:center;justify-content:center;color:#4D6A96;background:transparent">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="5" /><circle cx="12" cy="12" r="1.2" /></svg>
+                    </a>
+                    <a href="#bottle" data-tab="bottle" aria-label="Bottle" style="width:64px;height:64px;margin-top:-30px;border-radius:32px;background:linear-gradient(135deg,#4DB5FF,#1456C8);border:4px solid #EAF4FF;display:flex;align-items:center;justify-content:center;color:#FFFFFF;box-shadow:0 12px 24px rgba(20,86,200,0.45)">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5C12 2.5 5 10 5 15a7 7 0 0 0 14 0c0-5-7-12.5-7-12.5z" /></svg>
+                    </a>
+                    <a href="#history" data-tab="history" aria-label="History" style="width:48px;height:48px;border-radius:24px;display:flex;align-items:center;justify-content:center;color:#4D6A96;background:transparent">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" /></svg>
+                    </a>
+                    <a href="#settings" data-tab="settings" aria-label="Settings" style="width:48px;height:48px;border-radius:24px;display:flex;align-items:center;justify-content:center;color:#4D6A96;background:transparent">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" /><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" /></svg>
+                    </a>
+                </nav>
+            </div>
+        </section>
+
+        <!-- SECTION 4: HISTORY -->
+        <section id="history" aria-label="History">
+            <div style="box-sizing:border-box;background:linear-gradient(180deg,#BFE0FF 0%,#E6F2FF 40%,#F2F8FF 100%);font-family:Poppins,sans-serif;color:#0B2A5B;position:relative;overflow:hidden">
+                <div style="position:absolute;top:-60px;right:-50px;width:200px;height:200px;border-radius:100px;background:rgba(255,255,255,0.45);pointer-events:none"></div>
+                <div class="screen-scroll" style="position:absolute;inset:0;overflow-y:auto;box-sizing:border-box;padding:52px 24px 100px;display:flex;flex-direction:column;gap:14px">
+                    <div style="display:flex;justify-content:space-between;align-items:center;position:relative">
+                        <div>
+                            <h1 style="margin:0;font-size:28px;font-weight:700;line-height:1.2">History</h1>
+                            <div style="font-size:14px;color:#2F4F80">Auto-recorded by your Orbyte</div>
+                        </div>
+                    </div>
+
+                    <!-- Weekly Bar Chart -->
+                    <div style="font-size:16px;font-weight:600;margin-top:4px">Insights</div>
+                    <div style="background:#FFFFFF;border-radius:20px;box-shadow:0 8px 24px rgba(30,111,224,0.12);padding:16px">
+                        <div style="display:flex;justify-content:space-between;align-items:baseline">
+                            <div style="font-size:14px;font-weight:600">This week</div>
+                            <div id="chart-selected-info" style="font-size:12px;color:#2F4F80">Goal reached 3 of 7 days</div>
+                        </div>
+                        <div style="display:flex;gap:6px;align-items:flex-end;height:130px;margin-top:10px">
+                            <div class="history-bar-col" data-day="Monday" data-val="2,350 ml" data-goal="true">
+                                <div class="history-bar" style="height:98px;"></div>
+                                <div style="font-size:11px;color:#2F4F80">M</div>
+                            </div>
+                            <div class="history-bar-col" data-day="Tuesday" data-val="2,010 ml" data-goal="false">
+                                <div class="history-bar" style="height:84px;"></div>
+                                <div style="font-size:11px;color:#2F4F80">T</div>
+                            </div>
+                            <div class="history-bar-col" data-day="Wednesday" data-val="2,300 ml" data-goal="false">
+                                <div class="history-bar" style="height:96px;"></div>
+                                <div style="font-size:11px;color:#2F4F80">W</div>
+                            </div>
+                            <div class="history-bar-col" data-day="Thursday" data-val="2,400 ml" data-goal="true">
+                                <div class="history-bar" style="height:100px;"></div>
+                                <div style="font-size:11px;color:#2F4F80">Th</div>
+                            </div>
+                            <div class="history-bar-col" data-day="Friday" data-val="2,200 ml" data-goal="false">
+                                <div class="history-bar" style="height:92px;"></div>
+                                <div style="font-size:11px;color:#2F4F80">F</div>
+                            </div>
+                            <div class="history-bar-col" data-day="Saturday" data-val="1,450 ml" data-goal="false">
+                                <div class="history-bar" style="height:60px;"></div>
+                                <div style="font-size:11px;color:#2F4F80">S</div>
+                            </div>
+                            <div class="history-bar-col active" data-day="Sunday" data-val="1,200 ml (today)" data-goal="false">
+                                <div class="history-bar" style="height:48px;"></div>
+                                <div style="font-size:11px;color:#2F4F80">Su</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Average & Peak Stats -->
+                    <div style="display:flex;gap:12px">
+                        <div style="flex:1;background:#FFFFFF;border-radius:20px;box-shadow:0 8px 24px rgba(30,111,224,0.12);padding:12px 12px">
+                            <div style="font-size:20px;font-weight:700">2,064 ml</div>
+                            <div style="font-size:12px;color:#2F4F80">Daily average</div>
+                        </div>
+                        <div style="flex:1;background:#FFFFFF;border-radius:20px;box-shadow:0 8px 24px rgba(30,111,224,0.12);padding:12px 12px">
+                            <div style="font-size:20px;font-weight:700">10–12 AM</div>
+                            <div style="font-size:12px;color:#2F4F80">Peak drinking time</div>
+                        </div>
+                    </div>
+
+                    <div style="background:#FFFFFF;border-radius:20px;box-shadow:0 8px 24px rgba(30,111,224,0.12);padding:12px 16px;font-size:13px;line-height:1.45">
+                        You drink less between 2 and 5 PM, the hottest part of the day. A reminder at 3:30 PM can help.
+                    </div>
+
+                    <!-- Drinking Records Feed -->
+                    <div style="font-size:16px;font-weight:600;margin-top:4px">Drinking records</div>
+                    <div id="records-list" style="background:#FFFFFF;border-radius:20px;box-shadow:0 8px 24px rgba(30,111,224,0.12);padding:4px 16px">
+                        <div class="setting-row" style="min-height:60px">
+                            <div style="width:40px;height:40px;border-radius:20px;background:#E4F0FF;color:#1E6FE0;display:flex;align-items:center;justify-content:center;margin-right:12px">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E6FE0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5C12 2.5 5 10 5 15a7 7 0 0 0 14 0c0-5-7-12.5-7-12.5z" /></svg>
+                            </div>
+                            <div style="flex:1">
+                                <div style="font-size:15px;font-weight:600">+300 ml</div>
+                                <div style="font-size:12px;color:#2F4F80">Today · 2:10 PM</div>
+                            </div>
+                            <span style="display:inline-flex;align-items:center;gap:4px;background:#F6E6D5;color:#7A4A1E;border-radius:12px;padding:3px 8px;font-size:12px;font-weight:600">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7A4A1E" stroke-width="2"><path d="M17.5 19H8a4 4 0 0 1-.6-7.96A5.5 5.5 0 0 1 18 9.5 4.8 4.8 0 0 1 17.5 19z" /></svg>
+                                24°C · Just Right
+                            </span>
+                        </div>
+                        <div class="setting-row" style="min-height:60px">
+                            <div style="width:40px;height:40px;border-radius:20px;background:#E4F0FF;color:#1E6FE0;display:flex;align-items:center;justify-content:center;margin-right:12px">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E6FE0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5C12 2.5 5 10 5 15a7 7 0 0 0 14 0c0-5-7-12.5-7-12.5z" /></svg>
+                            </div>
+                            <div style="flex:1">
+                                <div style="font-size:15px;font-weight:600">+350 ml</div>
+                                <div style="font-size:12px;color:#2F4F80">Today · 12:05 PM</div>
+                            </div>
+                            <span style="display:inline-flex;align-items:center;gap:4px;background:#DCE8F3;color:#32587F;border-radius:12px;padding:3px 8px;font-size:12px;font-weight:600">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#32587F" stroke-width="2"><path d="M12 2v20M3.3 7l17.4 10M3.3 17L20.7 7M9.5 3.8L12 6.3l2.5-2.5M9.5 20.2L12 17.7l2.5 2.5" /></svg>
+                                12°C · Cold
+                            </span>
+                        </div>
+                        <div class="setting-row" style="min-height:60px">
+                            <div style="width:40px;height:40px;border-radius:20px;background:#E4F0FF;color:#1E6FE0;display:flex;align-items:center;justify-content:center;margin-right:12px">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E6FE0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5C12 2.5 5 10 5 15a7 7 0 0 0 14 0c0-5-7-12.5-7-12.5z" /></svg>
+                            </div>
+                            <div style="flex:1">
+                                <div style="font-size:15px;font-weight:600">+250 ml</div>
+                                <div style="font-size:12px;color:#2F4F80">Today · 10:30 AM</div>
+                            </div>
+                            <span style="display:inline-flex;align-items:center;gap:4px;background:#F6E6D5;color:#7A4A1E;border-radius:12px;padding:3px 8px;font-size:12px;font-weight:600">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7A4A1E" stroke-width="2"><path d="M17.5 19H8a4 4 0 0 1-.6-7.96A5.5 5.5 0 0 1 18 9.5 4.8 4.8 0 0 1 17.5 19z" /></svg>
+                                26°C · Just Right
+                            </span>
+                        </div>
+                        <div class="setting-row" style="min-height:60px">
+                            <div style="width:40px;height:40px;border-radius:20px;background:#E4F0FF;color:#1E6FE0;display:flex;align-items:center;justify-content:center;margin-right:12px">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E6FE0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5C12 2.5 5 10 5 15a7 7 0 0 0 14 0c0-5-7-12.5-7-12.5z" /></svg>
+                            </div>
+                            <div style="flex:1">
+                                <div style="font-size:15px;font-weight:600">+300 ml</div>
+                                <div style="font-size:12px;color:#2F4F80">Today · 8:00 AM</div>
+                            </div>
+                            <span style="display:inline-flex;align-items:center;gap:4px;background:#F6E6D5;color:#7A4A1E;border-radius:12px;padding:3px 8px;font-size:12px;font-weight:600">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7A4A1E" stroke-width="2"><path d="M17.5 19H8a4 4 0 0 1-.6-7.96A5.5 5.5 0 0 1 18 9.5 4.8 4.8 0 0 1 17.5 19z" /></svg>
+                                22°C · Just Right
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nav Bar -->
+                <nav class="app-nav" aria-label="Main" style="position:absolute;left:20px;right:20px;bottom:16px;height:64px;background:#FFFFFF;border-radius:32px;display:flex;justify-content:space-around;align-items:center;box-shadow:0 10px 30px rgba(11,42,91,0.2);z-index:50">
+                    <a href="#home" data-tab="home" aria-label="Home" style="width:48px;height:48px;border-radius:24px;display:flex;align-items:center;justify-content:center;color:#4D6A96;background:transparent">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" /></svg>
+                    </a>
+                    <a href="#goal" data-tab="goal" aria-label="Goal" style="width:48px;height:48px;border-radius:24px;display:flex;align-items:center;justify-content:center;color:#4D6A96;background:transparent">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="5" /><circle cx="12" cy="12" r="1.2" /></svg>
+                    </a>
+                    <a href="#bottle" data-tab="bottle" aria-label="Bottle" style="width:64px;height:64px;margin-top:-30px;border-radius:32px;background:linear-gradient(135deg,#4DB5FF,#1456C8);border:4px solid #EAF4FF;display:flex;align-items:center;justify-content:center;color:#FFFFFF;box-shadow:0 12px 24px rgba(20,86,200,0.45)">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5C12 2.5 5 10 5 15a7 7 0 0 0 14 0c0-5-7-12.5-7-12.5z" /></svg>
+                    </a>
+                    <a href="#history" data-tab="history" aria-label="History" style="width:48px;height:48px;border-radius:24px;display:flex;align-items:center;justify-content:center;color:#1E6FE0;background:#E4F0FF">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" /></svg>
+                    </a>
+                    <a href="#settings" data-tab="settings" aria-label="Settings" style="width:48px;height:48px;border-radius:24px;display:flex;align-items:center;justify-content:center;color:#4D6A96;background:transparent">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" /><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" /></svg>
+                    </a>
+                </nav>
+            </div>
+        </section>
+
+        <!-- SECTION 5: SETTINGS -->
+        <section id="settings" aria-label="Settings">
+            <div style="box-sizing:border-box;background:linear-gradient(180deg,#BFE0FF 0%,#E6F2FF 40%,#F2F8FF 100%);font-family:Poppins,sans-serif;color:#0B2A5B;position:relative;overflow:hidden">
+                <div style="position:absolute;top:-60px;right:-50px;width:200px;height:200px;border-radius:100px;background:rgba(255,255,255,0.45);pointer-events:none"></div>
+                <div class="screen-scroll" style="position:absolute;inset:0;overflow-y:auto;box-sizing:border-box;padding:52px 24px 100px;display:flex;flex-direction:column;gap:14px">
+                    <div style="display:flex;justify-content:space-between;align-items:center;position:relative">
+                        <div>
+                            <h1 style="margin:0;font-size:28px;font-weight:700;line-height:1.2">Settings</h1>
+                            <div style="font-size:14px;color:#2F4F80">Orbyte tumbler and app</div>
+                        </div>
+                    </div>
+
+                    <!-- Bottle Section -->
+                    <div style="font-size:13px;font-weight:700;color:#1E6FE0;letter-spacing:0.5px;margin-top:4px">BOTTLE</div>
+                    <div style="background:#FFFFFF;border-radius:20px;box-shadow:0 8px 24px rgba(30,111,224,0.12);padding:2px 16px">
+                        <div class="setting-row" data-msg="Renaming bottle: My Orbyte">
+                            <span>Bottle name</span><span style="font-size:13px;color:#2F4F80">My Orbyte ›</span>
+                        </div>
+                        <div class="setting-row" data-msg="Tumbler capacity: 750 ml">
+                            <span>Bottle capacity</span><span style="font-size:13px;color:#2F4F80">750 ml ›</span>
+                        </div>
+                        <div class="setting-row" data-msg="Unit set to mL (milliliters)">
+                            <span>Unit</span><span style="font-size:13px;color:#2F4F80">mL ›</span>
+                        </div>
+                        <div class="setting-row" data-msg="Battery level: 82% (approx 6 days left)">
+                            <span>Battery</span><span style="font-size:13px;color:#2F4F80">82% ›</span>
+                        </div>
+                        <div class="setting-row" data-msg="Sensor recalibrated successfully!">
+                            <span>Recalibrate water sensor</span><span style="font-size:13px;color:#2F4F80"> ›</span>
+                        </div>
+                        <div class="setting-row" data-msg="Bluetooth status: Connected to Orbyte">
+                            <span>Disconnect / reconnect</span><span style="font-size:13px;color:#2F4F80">Connected ›</span>
+                        </div>
+                    </div>
+
+                    <!-- Hydration Settings -->
+                    <div style="font-size:13px;font-weight:700;color:#1E6FE0;letter-spacing:0.5px;margin-top:4px">HYDRATION</div>
+                    <div style="background:#FFFFFF;border-radius:20px;box-shadow:0 8px 24px rgba(30,111,224,0.12);padding:2px 16px">
+                        <div class="setting-row" data-msg="Navigate to Goal tab to customize daily target">
+                            <span>Daily water goal</span><span id="settings-goal-val" style="font-size:13px;color:#2F4F80">2,400 ml ›</span>
+                        </div>
+                        <div class="setting-row" data-msg="Default single sip amount: 250 ml">
+                            <span>Default drink amount</span><span style="font-size:13px;color:#2F4F80">250 ml ›</span>
+                        </div>
+                        <div class="setting-row" data-msg="Drink type: Fresh Water">
+                            <span>Default drink type</span><span style="font-size:13px;color:#2F4F80">Water ›</span>
+                        </div>
+                        <div class="setting-row" data-msg="Goal calculation is auto-personalized by size & weather">
+                            <span>Goal calculation</span><span style="font-size:13px;color:#2F4F80">Personalized ›</span>
+                        </div>
+                    </div>
+
+                    <!-- Notifications Switches -->
+                    <div style="font-size:13px;font-weight:700;color:#1E6FE0;letter-spacing:0.5px;margin-top:4px">NOTIFICATIONS</div>
+                    <div style="background:#FFFFFF;border-radius:20px;box-shadow:0 8px 24px rgba(30,111,224,0.12);padding:2px 16px">
+                        <div class="setting-row" style="cursor:default">
+                            <span>Hydration reminders</span>
+                            <span class="toggle-switch active" role="switch" aria-checked="true" tabindex="0" data-label="Hydration reminders"><span class="toggle-knob"></span></span>
+                        </div>
+                        <div class="setting-row" style="cursor:default">
+                            <span>Goal reminders</span>
+                            <span class="toggle-switch active" role="switch" aria-checked="true" tabindex="0" data-label="Goal reminders"><span class="toggle-knob"></span></span>
+                        </div>
+                        <div class="setting-row" style="cursor:default">
+                            <span>Low battery</span>
+                            <span class="toggle-switch active" role="switch" aria-checked="true" tabindex="0" data-label="Low battery alert"><span class="toggle-knob"></span></span>
+                        </div>
+                        <div class="setting-row" style="cursor:default">
+                            <span>Bottle empty</span>
+                            <span class="toggle-switch active" role="switch" aria-checked="true" tabindex="0" data-label="Bottle empty alert"><span class="toggle-knob"></span></span>
+                        </div>
+                    </div>
+
+                    <!-- Data Management -->
+                    <div style="font-size:13px;font-weight:700;color:#1E6FE0;letter-spacing:0.5px;margin-top:4px">DATA</div>
+                    <div style="background:#FFFFFF;border-radius:20px;box-shadow:0 8px 24px rgba(30,111,224,0.12);padding:2px 16px">
+                        <div class="setting-row" data-msg="Showing complete drinking log">
+                            <span>Drinking history</span><span style="font-size:13px;color:#2F4F80"> ›</span>
+                        </div>
+                        <div class="setting-row" data-msg="CSV export generated and ready!">
+                            <span>Export drinking records</span><span style="font-size:13px;color:#2F4F80"> ›</span>
+                        </div>
+                        <div class="setting-row" data-msg="History cache cleared">
+                            <span>Clear history</span><span style="font-size:13px;color:#2F4F80"> ›</span>
+                        </div>
+                        <div class="setting-row" data-msg="Hydration analytics reset for today">
+                            <span>Reset hydration data</span><span style="font-size:13px;color:#2F4F80"> ›</span>
+                        </div>
+                    </div>
+
+                    <!-- App Preferences -->
+                    <div style="font-size:13px;font-weight:700;color:#1E6FE0;letter-spacing:0.5px;margin-top:4px">APP</div>
+                    <div style="background:#FFFFFF;border-radius:20px;box-shadow:0 8px 24px rgba(30,111,224,0.12);padding:2px 16px">
+                        <div class="setting-row" style="cursor:default">
+                            <span>Sound effects</span>
+                            <span class="toggle-switch" role="switch" aria-checked="false" tabindex="0" data-label="Sound effects"><span class="toggle-knob"></span></span>
+                        </div>
+                        <div class="setting-row" style="cursor:default">
+                            <span>Haptic feedback</span>
+                            <span class="toggle-switch active" role="switch" aria-checked="true" tabindex="0" data-label="Haptic feedback"><span class="toggle-knob"></span></span>
+                        </div>
+                        <div class="setting-row" data-msg="Language set to English">
+                            <span>Language</span><span style="font-size:13px;color:#2F4F80">English ›</span>
+                        </div>
+                        <div class="setting-row" data-msg="Orbyte Smart Tumbler v1.0.4 - Prototype Demo">
+                            <span>About Orbyte</span><span style="font-size:13px;color:#2F4F80"> ›</span>
+                        </div>
+                        <div class="setting-row" data-msg="Support & FAQs: support@orbyte.app">
+                            <span>Help / FAQ</span><span style="font-size:13px;color:#2F4F80"> ›</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nav Bar -->
+                <nav class="app-nav" aria-label="Main" style="position:absolute;left:20px;right:20px;bottom:16px;height:64px;background:#FFFFFF;border-radius:32px;display:flex;justify-content:space-around;align-items:center;box-shadow:0 10px 30px rgba(11,42,91,0.2);z-index:50">
+                    <a href="#home" data-tab="home" aria-label="Home" style="width:48px;height:48px;border-radius:24px;display:flex;align-items:center;justify-content:center;color:#4D6A96;background:transparent">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" /></svg>
+                    </a>
+                    <a href="#goal" data-tab="goal" aria-label="Goal" style="width:48px;height:48px;border-radius:24px;display:flex;align-items:center;justify-content:center;color:#4D6A96;background:transparent">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="5" /><circle cx="12" cy="12" r="1.2" /></svg>
+                    </a>
+                    <a href="#bottle" data-tab="bottle" aria-label="Bottle" style="width:64px;height:64px;margin-top:-30px;border-radius:32px;background:linear-gradient(135deg,#4DB5FF,#1456C8);border:4px solid #EAF4FF;display:flex;align-items:center;justify-content:center;color:#FFFFFF;box-shadow:0 12px 24px rgba(20,86,200,0.45)">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5C12 2.5 5 10 5 15a7 7 0 0 0 14 0c0-5-7-12.5-7-12.5z" /></svg>
+                    </a>
+                    <a href="#history" data-tab="history" aria-label="History" style="width:48px;height:48px;border-radius:24px;display:flex;align-items:center;justify-content:center;color:#4D6A96;background:transparent">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" /></svg>
+                    </a>
+                    <a href="#settings" data-tab="settings" aria-label="Settings" style="width:48px;height:48px;border-radius:24px;display:flex;align-items:center;justify-content:center;color:#1E6FE0;background:#E4F0FF">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" /><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" /></svg>
+                    </a>
+                </nav>
+            </div>
+        </section>
+    </main>
+
+    <!-- App Frontend Interactive Controller -->
+    <script>
+        (function () {
+            'use strict';
+
+            var ids = ['home', 'goal', 'bottle', 'history', 'settings'];
+            var state = {
+                currentTab: 'home',
+                currentIntake: 1200,
+                dailyGoal: 2400,
+                glasses: 10,
+                mlPerGlass: 240,
+                bottleRemaining: 450,
+                bottleCapacity: 750,
+                temperature: 24,
+                tempStatus: 'Just Right'
+            };
+
+            var toastTimer = null;
+            function showToast(msg, icon) {
+                var t = document.getElementById('toast');
+                var m = document.getElementById('toast-msg');
+                var i = document.getElementById('toast-icon');
+                if (!t || !m) return;
+                m.textContent = msg;
+                if (i) i.textContent = icon || '💧';
+                t.classList.add('show');
+                clearTimeout(toastTimer);
+                toastTimer = setTimeout(function () {
+                    t.classList.remove('show');
+                }, 2200);
+            }
+
+            // Route & Tab Navigation
+            function updateNav(activeId) {
+                document.querySelectorAll('.app-nav').forEach(function (nav) {
+                    var links = nav.querySelectorAll('a[data-tab]');
+                    links.forEach(function (link) {
+                        var tab = link.getAttribute('data-tab');
+                        var isCenter = (tab === 'bottle');
+                        if (tab === activeId) {
+                            if (!isCenter) {
+                                link.style.color = '#1E6FE0';
+                                link.style.background = '#E4F0FF';
+                            }
+                            var svg = link.querySelector('svg');
+                            if (svg && !isCenter) svg.setAttribute('stroke-width', '2.2');
+                        } else {
+                            if (!isCenter) {
+                                link.style.color = '#4D6A96';
+                                link.style.background = 'transparent';
+                            }
+                            var svg = link.querySelector('svg');
+                            if (svg && !isCenter) svg.setAttribute('stroke-width', '2');
+                        }
+                    });
+                });
+            }
+
+            function show() {
+                var h = location.hash.replace('#', '');
+                if (ids.indexOf(h) < 0) h = 'home';
+                state.currentTab = h;
+
+                ids.forEach(function (i) {
+                    var el = document.getElementById(i);
+                    if (el) el.classList.toggle('on', i === h);
+                });
+
+                updateNav(h);
+
+                var s = document.querySelector('#' + h + ' .screen-scroll');
+                if (s) s.scrollTop = 0;
+                document.title = 'Orbyte · ' + h.charAt(0).toUpperCase() + h.slice(1);
+            }
+
+            window.addEventListener('hashchange', show);
+
+            // Update UI dynamically
+            function renderHydrationState() {
+                var percent = Math.min(100, Math.round((state.currentIntake / state.dailyGoal) * 100));
+                var remaining = Math.max(0, state.dailyGoal - state.currentIntake);
+
+                var homeCurrent = document.getElementById('home-current-val');
+                if (homeCurrent) homeCurrent.textContent = state.currentIntake.toLocaleString();
+
+                var homeTitle = document.getElementById('home-progress-title');
+                if (homeTitle) homeTitle.textContent = percent + '% of your ' + state.dailyGoal.toLocaleString() + ' ml goal';
+
+                var homeRem = document.getElementById('home-remaining-text');
+                if (homeRem) homeRem.textContent = remaining > 0 ? (remaining.toLocaleString() + ' ml to go') : 'Goal achieved today! 🎉';
+
+                var goalHeroTarget = document.getElementById('goal-hero-target');
+                if (goalHeroTarget) goalHeroTarget.innerHTML = state.dailyGoal.toLocaleString() + ' <span style="font-size:18px">ml / day</span>';
+
+                var goalHeroDesc = document.getElementById('goal-hero-desc');
+                if (goalHeroDesc) goalHeroDesc.textContent = 'About ' + state.glasses + ' glasses (' + state.mlPerGlass + ' ml each), adjusted for your size and hot weather.';
+
+                var goalTargetSub = document.getElementById('goal-target-sub');
+                if (goalTargetSub) goalTargetSub.textContent = state.glasses + ' glasses · ' + state.dailyGoal.toLocaleString() + ' ml';
+
+                var settingsGoal = document.getElementById('settings-goal-val');
+                if (settingsGoal) settingsGoal.textContent = state.dailyGoal.toLocaleString() + ' ml ›';
+
+                // Droplet wave height (translateY: 0px is 100% full, 160px is empty)
+                var waveGroup = document.getElementById('water-wave-group');
+                if (waveGroup) {
+                    var translateY = 160 - Math.min(160, (percent / 100) * 120);
+                    waveGroup.style.transform = 'translateY(' + translateY + 'px)';
+                }
+            }
+
+            // Setup Interactive Event Listeners
+            function initInteractivity() {
+                // 1. Notification bell button
+                var btnNotif = document.getElementById('btn-notification');
+                if (btnNotif) {
+                    btnNotif.addEventListener('click', function () {
+                        showToast('Next hydration reminder set for 3:30 PM', '🔔');
+                    });
+                }
+
+                // 2. Weather banner
+                var weather = document.getElementById('weather-banner');
+                if (weather) {
+                    weather.addEventListener('click', function () {
+                        showToast('34°C sunny · Goal adjusted +200ml for hot weather', '☀️');
+                    });
+                }
+
+                // 3. Droplet tap to simulate sip
+                var droplet = document.getElementById('droplet-container');
+                if (droplet) {
+                    droplet.addEventListener('click', function () {
+                        state.currentIntake += 150;
+                        if (state.currentIntake > 3500) state.currentIntake = 600;
+                        renderHydrationState();
+
+                        var svg = document.getElementById('droplet-svg');
+                        if (svg) {
+                            svg.classList.remove('droplet-pulse');
+                            void svg.offsetWidth;
+                            svg.classList.add('droplet-pulse');
+                        }
+
+                        var now = new Date();
+                        var timeStr = now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+                        var sipLabel = document.getElementById('home-last-sip');
+                        if (sipLabel) sipLabel.textContent = timeStr;
+
+                        showToast('+150 ml logged! Great hydration!', '🌊');
+                    });
+                }
+
+                // 4. Bottle Tumbler tap
+                var bottle = document.getElementById('bottle-container');
+                if (bottle) {
+                    bottle.addEventListener('click', function () {
+                        if (state.bottleRemaining > 150) {
+                            state.bottleRemaining -= 150;
+                            state.currentIntake += 150;
+                            renderHydrationState();
+                            showToast('+150 ml sipped from Orbyte tumbler', '🥤');
+                        } else {
+                            state.bottleRemaining = 750;
+                            showToast('Tumbler refilled to 750 ml!', '✨');
+                        }
+
+                        var bVal = document.getElementById('bottle-vol-text');
+                        var bPct = document.getElementById('bottle-percent-text');
+                        var pct = Math.round((state.bottleRemaining / state.bottleCapacity) * 100);
+                        if (bVal) bVal.innerHTML = state.bottleRemaining + ' <span style="font-size:18px">ml</span>';
+                        if (bPct) bPct.textContent = pct + '% of 750 ml';
+
+                        var bWave = document.getElementById('bottle-wave-group');
+                        if (bWave) {
+                            var ty = 240 - ((pct / 100) * 140);
+                            bWave.style.transform = 'translateY(' + ty + 'px)';
+                        }
+                    });
+                }
+
+                // 5. Goal Plus & Minus
+                var btnPlus = document.getElementById('btn-plus-goal');
+                var btnMinus = document.getElementById('btn-minus-goal');
+                if (btnPlus) {
+                    btnPlus.addEventListener('click', function () {
+                        if (state.glasses < 20) {
+                            state.glasses += 1;
+                            state.dailyGoal = state.glasses * state.mlPerGlass;
+                            renderHydrationState();
+                        }
+                    });
+                }
+                if (btnMinus) {
+                    btnMinus.addEventListener('click', function () {
+                        if (state.glasses > 4) {
+                            state.glasses -= 1;
+                            state.dailyGoal = state.glasses * state.mlPerGlass;
+                            renderHydrationState();
+                        }
+                    });
+                }
+
+                // 6. Save Goal Button
+                var btnSave = document.getElementById('btn-save-goal');
+                if (btnSave) {
+                    btnSave.addEventListener('click', function () {
+                        showToast('Daily goal saved: ' + state.dailyGoal.toLocaleString() + ' ml!', '🎯');
+                    });
+                }
+
+                // 7. Chip Groups (Activity & Health)
+                document.querySelectorAll('.chip-group').forEach(function (grp) {
+                    grp.addEventListener('click', function (e) {
+                        var chip = e.target.closest('.chip-btn');
+                        if (!chip) return;
+                        grp.querySelectorAll('.chip-btn').forEach(function (c) { c.classList.remove('active'); });
+                        chip.classList.add('active');
+                        showToast('Updated: ' + chip.textContent.trim(), '✓');
+                    });
+                });
+
+                // 8. Temperature selector pills
+                document.querySelectorAll('.temp-card').forEach(function (card) {
+                    card.addEventListener('click', function () {
+                        document.querySelectorAll('.temp-card').forEach(function (c) { c.classList.remove('active'); });
+                        card.classList.add('active');
+
+                        var temp = card.getAttribute('data-temp');
+                        var label = card.getAttribute('data-label');
+                        var color = card.getAttribute('data-color');
+                        var bg = card.getAttribute('data-bg');
+
+                        var dispVal = document.getElementById('temp-val-display');
+                        var dispLbl = document.getElementById('temp-label-display');
+                        var iconWrap = document.getElementById('temp-icon-wrapper');
+
+                        if (dispVal) dispVal.textContent = temp + '°C';
+                        if (dispLbl) {
+                            dispLbl.textContent = label;
+                            dispLbl.style.color = color;
+                        }
+                        if (iconWrap) {
+                            iconWrap.style.background = bg;
+                            iconWrap.style.color = color;
+                        }
+
+                        showToast('Tumbler temperature: ' + temp + '°C (' + label + ')', '🌡️');
+                    });
+                });
+
+                // 9. History Bar Chart Clicks
+                document.querySelectorAll('.history-bar-col').forEach(function (col) {
+                    col.addEventListener('click', function () {
+                        document.querySelectorAll('.history-bar-col').forEach(function (c) { c.classList.remove('active'); });
+                        col.classList.add('active');
+
+                        var day = col.getAttribute('data-day');
+                        var val = col.getAttribute('data-val');
+                        var info = document.getElementById('chart-selected-info');
+                        if (info) info.textContent = day + ': ' + val;
+
+                        showToast(day + ': ' + val, '📊');
+                    });
+                });
+
+                // 10. Settings Toggle Switches
+                document.querySelectorAll('.toggle-switch').forEach(function (sw) {
+                    sw.addEventListener('click', function (e) {
+                        e.stopPropagation();
+                        var isActive = sw.classList.toggle('active');
+                        sw.setAttribute('aria-checked', isActive ? 'true' : 'false');
+                        var lbl = sw.getAttribute('data-label') || 'Setting';
+                        showToast(lbl + (isActive ? ' enabled' : ' disabled'), isActive ? '✅' : '⚪');
+                    });
+
+                    sw.addEventListener('keydown', function (e) {
+                        if (e.key === ' ' || e.key === 'Enter') {
+                            e.preventDefault();
+                            sw.click();
+                        }
+                    });
+                });
+
+                // 11. Settings Rows clickable feedback
+                document.querySelectorAll('.setting-row[data-msg]').forEach(function (row) {
+                    row.addEventListener('click', function () {
+                        var msg = row.getAttribute('data-msg');
+                        if (msg) showToast(msg, '⚙️');
+                    });
+                });
+            }
+
+            // Init everything on DOM loaded
+            document.addEventListener('DOMContentLoaded', function () {
+                show();
+                initInteractivity();
+                renderHydrationState();
+            });
+
+            // If already loaded
+            if (document.readyState === 'complete' || document.readyState === 'interactive') {
+                show();
+                initInteractivity();
+                renderHydrationState();
+            }
+        })();
+    </script>
+</body>
+
+</html>
