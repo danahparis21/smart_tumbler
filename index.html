@@ -373,10 +373,144 @@
                 transition: none !important;
             }
         }
+        /* Desktop Floating Pitch Launcher */
+        .desktop-pitch-banner {
+            position: fixed;
+            top: 24px;
+            right: 28px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1.5px solid rgba(255, 255, 255, 0.85);
+            padding: 8px 10px 8px 16px;
+            border-radius: 30px;
+            box-shadow: 0 12px 32px rgba(11, 42, 91, 0.16), 0 2px 6px rgba(11, 42, 91, 0.05);
+            z-index: 999;
+            text-decoration: none;
+            transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.2s ease;
+        }
+
+        .desktop-pitch-banner:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 16px 40px rgba(30, 111, 224, 0.25);
+        }
+
+        .pitch-badge-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 5px;
+            background: #22C55E;
+            box-shadow: 0 0 10px #22C55E;
+            animation: pulseRecord 2s infinite;
+        }
+
+        @keyframes pulseRecord {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.85); }
+        }
+
+        .pitch-badge-info {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.25;
+        }
+
+        .pitch-badge-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #0B2A5B;
+        }
+
+        .pitch-badge-sub {
+            font-size: 11px;
+            color: #4D6A96;
+        }
+
+        .pitch-badge-btn {
+            background: linear-gradient(135deg, #1E6FE0, #0B4DB8);
+            color: #FFFFFF;
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 12px rgba(30, 111, 224, 0.35);
+        }
+
+        /* In-App Pitch Banner */
+        .pitch-promo-card {
+            background: linear-gradient(135deg, #FFFFFF 0%, #EBF4FF 100%);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 8px 24px rgba(30, 111, 224, 0.12);
+            padding: 11px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .pitch-promo-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 26px rgba(30, 111, 224, 0.2);
+        }
+
+        .pitch-card-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 19px;
+            background: linear-gradient(135deg, #1E6FE0, #0B4DB8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(30, 111, 224, 0.35);
+            flex-shrink: 0;
+        }
+
+        .pitch-card-play {
+            font-size: 12px;
+            font-weight: 600;
+            color: #1E6FE0;
+            background: #FFFFFF;
+            padding: 6px 12px;
+            border-radius: 14px;
+            border: 1px solid rgba(30, 111, 224, 0.25);
+            box-shadow: 0 2px 8px rgba(30, 111, 224, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 860px) {
+            .desktop-pitch-banner {
+                display: none;
+            }
+        }
     </style>
 </head>
 
 <body>
+    <!-- Floating Laptop / Desktop Launcher for Fullscreen Pitch Video -->
+    <a href="pitch.html" class="desktop-pitch-banner" title="Launch Fullscreen 30-Second Infomercial">
+        <div class="pitch-badge-dot"></div>
+        <div class="pitch-badge-info">
+            <span class="pitch-badge-title">🎬 Lazuli Product Pitch</span>
+            <span class="pitch-badge-sub">30s Infomercial · Screen Record</span>
+        </div>
+        <div class="pitch-badge-btn">
+            <span>Play Fullscreen</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+        </div>
+    </a>
+
     <main id="app">
         <!-- Toast Notification Banner -->
         <div id="toast" role="alert" aria-live="polite">
@@ -417,6 +551,23 @@
                             Time for a sip. Tap droplet to log!
                         </div>
                     </div>
+
+                    <!-- In-App Infomercial Promo Banner -->
+                    <a href="pitch.html" class="pitch-promo-card" aria-label="Play 30-Second Product Pitch Infomercial">
+                        <div style="display:flex;align-items:center;gap:12px">
+                            <div class="pitch-card-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="#FFFFFF"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+                            </div>
+                            <div>
+                                <div style="font-weight:700;font-size:13px;color:#0B2A5B;display:flex;align-items:center;gap:6px">
+                                    Lazuli Pitch Video
+                                    <span style="background:#1E6FE0;color:#fff;font-size:10px;font-weight:600;padding:2px 6px;border-radius:10px">30s Infomercial</span>
+                                </div>
+                                <div style="font-size:12px;color:#2F4F80">Watch fullscreen motion promo</div>
+                            </div>
+                        </div>
+                        <span class="pitch-card-play">Play ▶</span>
+                    </a>
 
                     <!-- Water Droplet Progress Visual -->
                     <div id="droplet-container" class="water-container" title="Click to log a sip" style="position:relative;width:340px;height:330px;align-self:center;display:flex;align-items:center;justify-content:center;margin-top:-4px">
@@ -1004,6 +1155,10 @@
                         <div class="setting-row" data-msg="Language set to English">
                             <span>Language</span><span style="font-size:13px;color:#2F4F80">English ›</span>
                         </div>
+                        <a href="pitch.html" class="setting-row" style="text-decoration:none;color:inherit" title="Play Fullscreen Pitch Video">
+                            <span style="display:flex;align-items:center;gap:8px"><span>🎬</span><span>Watch Product Pitch (Infomercial)</span></span>
+                            <span style="font-size:13px;color:#1E6FE0;font-weight:600">Play 30s ›</span>
+                        </a>
                         <div class="setting-row" data-msg="Orbyte Smart Tumbler v1.0.4 - Prototype Demo">
                             <span>About Orbyte</span><span style="font-size:13px;color:#2F4F80"> ›</span>
                         </div>

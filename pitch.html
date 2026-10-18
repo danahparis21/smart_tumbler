@@ -1,0 +1,1791 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lazuli · 30-second promo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --k: 1
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            margin: 0;
+            height: 100%;
+            background: #000;
+            overflow: hidden;
+            font-family: Poppins, sans-serif
+        }
+
+        #stage {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 1920px;
+            height: 1080px;
+            transform-origin: 0 0;
+            overflow: hidden;
+            background: #061633;
+            color: #fff
+        }
+
+        body.hold #stage *,
+        body.hold #clk {
+            animation-play-state: paused !important
+        }
+
+        .scene {
+            --ds: calc(var(--s)*var(--k)*1s);
+            --de: calc((var(--s) + var(--d) - .5)*var(--k)*1s);
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            animation: sin .5s ease var(--ds) both, sout .5s ease var(--de) forwards
+        }
+
+        .scene.last {
+            animation: sin .5s ease var(--ds) both
+        }
+
+        .a {
+            animation-duration: .9s;
+            animation-timing-function: cubic-bezier(.2, .8, .2, 1);
+            animation-fill-mode: both;
+            animation-delay: calc((var(--s) + var(--a, 0))*var(--k)*1s)
+        }
+
+        .rise {
+            animation-name: rise
+        }
+
+        .pop {
+            animation-name: pop
+        }
+
+        .fade {
+            animation-name: fade
+        }
+
+        .slide {
+            animation-name: slide
+        }
+
+        .slider {
+            animation-name: slider
+        }
+
+        .drop {
+            animation-name: drop
+        }
+
+        .up {
+            animation-name: up;
+            animation-duration: 1.5s
+        }
+
+        .wipe {
+            animation-name: wipe;
+            animation-duration: 1.3s
+        }
+
+        .grow {
+            animation-name: grow
+        }
+
+        @keyframes sin {
+            from {
+                opacity: 0
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+
+        @keyframes sout {
+            to {
+                opacity: 0
+            }
+        }
+
+        @keyframes rise {
+            from {
+                opacity: 0;
+                transform: translateY(70px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        @keyframes pop {
+            0% {
+                opacity: 0;
+                transform: scale(.55)
+            }
+
+            70% {
+                transform: scale(1.07)
+            }
+
+            100% {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        @keyframes fade {
+            from {
+                opacity: 0
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+
+        @keyframes slide {
+            from {
+                opacity: 0;
+                transform: translateX(-110px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        @keyframes slider {
+            from {
+                opacity: 0;
+                transform: translateX(110px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        @keyframes drop {
+            from {
+                opacity: 0;
+                transform: translateY(-160px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        @keyframes up {
+            from {
+                opacity: 0;
+                transform: translateY(760px) rotate(-16deg) scale(.8)
+            }
+
+            55% {
+                opacity: 1
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        @keyframes wipe {
+            from {
+                clip-path: inset(0 100% 0 0);
+                opacity: 0
+            }
+
+            to {
+                clip-path: inset(0 0 -20% 0);
+                opacity: 1
+            }
+        }
+
+        @keyframes grow {
+            from {
+                transform: scaleX(0)
+            }
+
+            to {
+                transform: scaleX(1)
+            }
+        }
+
+        @keyframes dim {
+            to {
+                opacity: .25
+            }
+        }
+
+        @keyframes flash {
+            from {
+                opacity: 1
+            }
+
+            to {
+                opacity: 0
+            }
+        }
+
+        @keyframes bob {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0)
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(1.4deg)
+            }
+        }
+
+        @keyframes ring {
+            0% {
+                transform: translate(-50%, -50%) scale(.15);
+                opacity: .8
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0
+            }
+        }
+
+        @keyframes wv {
+            from {
+                transform: translateX(0)
+            }
+
+            to {
+                transform: translateX(-70px)
+            }
+        }
+
+        @keyframes fillup {
+            from {
+                transform: translateY(240px)
+            }
+
+            to {
+                transform: translateY(96px)
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: rotate(0)
+            }
+
+            20% {
+                transform: rotate(-16deg)
+            }
+
+            40% {
+                transform: rotate(14deg)
+            }
+
+            60% {
+                transform: rotate(-10deg)
+            }
+
+            80% {
+                transform: rotate(6deg)
+            }
+        }
+
+        @keyframes bub {
+            from {
+                transform: translateY(0);
+                opacity: 0
+            }
+
+            15% {
+                opacity: .9
+            }
+
+            to {
+                transform: translateY(-1300px);
+                opacity: 0
+            }
+        }
+
+        @keyframes beat {
+
+            0%,
+            100% {
+                transform: scale(1)
+            }
+
+            15% {
+                transform: scale(1.09)
+            }
+
+            30% {
+                transform: scale(1)
+            }
+
+            45% {
+                transform: scale(1.06)
+            }
+        }
+
+        @keyframes think {
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+            }
+
+            50% {
+                transform: translateY(-16px) scale(1.03);
+            }
+        }
+
+        @keyframes qp {
+
+            0%,
+            100% {
+                transform: scale(1) rotate(-4deg)
+            }
+
+            50% {
+                transform: scale(1.12) rotate(5deg)
+            }
+        }
+
+        @keyframes flt {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-34px)
+            }
+        }
+
+        .w1 {
+            animation: wv 3s linear infinite
+        }
+
+        .w2 {
+            animation: wv 5s linear infinite reverse
+        }
+
+        .bob {
+            animation: bob 4.5s ease-in-out infinite
+        }
+
+        .p {
+            position: absolute
+        }
+
+        .bubbles span {
+            position: absolute;
+            bottom: -70px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, .55);
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, .75), rgba(255, 255, 255, .08));
+            animation: bub linear infinite
+        }
+
+        .ring {
+            position: absolute;
+            border: 3px solid rgba(255, 255, 255, .7);
+            border-radius: 50%;
+            animation: ring 3.2s ease-out infinite;
+            animation-delay: calc(var(--r)*1s)
+        }
+
+        .q {
+            position: absolute;
+            font-weight: 700;
+            color: rgba(124, 208, 255, .22);
+            animation: flt 5s ease-in-out infinite
+        }
+
+        /* Ambient Glow & Floating Bubbles from index.html */
+        @keyframes fl {
+            0% {
+                transform: translateY(0);
+                opacity: 0;
+            }
+            20% {
+                opacity: .9;
+            }
+            100% {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+        }
+
+        @keyframes glow {
+            0%,
+            100% {
+                opacity: 0.55;
+                transform: scale(0.98);
+            }
+            50% {
+                opacity: 0.85;
+                transform: scale(1.04);
+            }
+        }
+
+        .bb {
+            animation: fl 3s ease-in infinite;
+        }
+
+        .gl {
+            animation: glow 4s ease-in-out infinite;
+        }
+
+        /* Clipart Tumbler & Persona Badges in Scene 5 */
+        .persona-badge {
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1.5px solid rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 14px 20px;
+            box-shadow: 0 16px 36px rgba(30, 111, 224, 0.16);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            color: #0B2A5B;
+            font-family: Poppins, sans-serif;
+            z-index: 10;
+        }
+
+        .persona-badge-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 22px;
+            background: linear-gradient(135deg, #E6F2FF, #CFE5FF);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+
+        h1,
+        h2,
+        p {
+            margin: 0
+        }
+
+        .big {
+            font-weight: 700;
+            line-height: 1.05;
+            letter-spacing: -.02em
+        }
+
+        .screen {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, #BFE0FF 0%, #E6F2FF 40%, #F2F8FF 100%);
+            color: #0B2A5B;
+            font-family: Poppins, sans-serif;
+            padding: 60px 24px 0;
+            overflow: hidden
+        }
+
+        .screen h3 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 8px 24px rgba(30, 111, 224, .14);
+            padding: 10px 14px;
+            font-size: 14px
+        }
+
+        .pnav {
+            position: absolute;
+            left: 20px;
+            right: 20px;
+            bottom: 16px;
+            height: 64px;
+            background: #fff;
+            border-radius: 32px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(11, 42, 91, .2)
+        }
+
+        .pnav i {
+            width: 46px;
+            height: 46px;
+            border-radius: 23px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4D6A96
+        }
+
+        .pnav i.on {
+            background: #E4F0FF;
+            color: #1E6FE0
+        }
+
+        .pnav i.c {
+            width: 64px;
+            height: 64px;
+            border-radius: 32px;
+            margin-top: -30px;
+            background: linear-gradient(135deg, #4DB5FF, #1456C8);
+            border: 4px solid #EAF4FF;
+            color: #fff;
+            box-shadow: 0 12px 24px rgba(20, 86, 200, .45)
+        }
+
+        #cap {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 14px 24px 18px;
+            background: rgba(0, 0, 0, .72);
+            color: #fff;
+            font-size: 20px;
+            text-align: center;
+            display: none;
+            z-index: 5
+        }
+
+        #cap b {
+            color: #7CD0FF;
+            margin-right: 10px
+        }
+
+        #bar {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            height: 4px;
+            background: #7CD0FF;
+            width: 0;
+            z-index: 6;
+            display: none
+        }
+
+        body.cc #cap,
+        body.cc #bar {
+            display: block
+        }
+
+        /* Start Overlay & Card */
+        #start {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: radial-gradient(circle at center, rgba(11, 42, 91, 0.95) 0%, rgba(3, 12, 30, 0.98) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .start-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 28px;
+            padding: 40px 48px;
+            max-width: 620px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+
+        .start-badge {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.25em;
+            color: #7CD0FF;
+            text-transform: uppercase;
+            background: rgba(124, 208, 255, 0.12);
+            border: 1px solid rgba(124, 208, 255, 0.3);
+            padding: 5px 14px;
+            border-radius: 20px;
+            margin-bottom: 14px;
+        }
+
+        .start-title {
+            margin: 0;
+            font-weight: 300;
+            letter-spacing: 0.3em;
+            font-size: 46px;
+            color: #FFFFFF;
+        }
+
+        .start-sub {
+            color: #9FC2EE;
+            font-size: 15px;
+            line-height: 1.6;
+            margin: 8px 0 22px;
+        }
+
+        .start-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .btn-primary-record {
+            height: 56px;
+            padding: 0 32px;
+            border: 0;
+            border-radius: 28px;
+            background: linear-gradient(135deg, #3C9BFF 0%, #1456C8 100%);
+            color: #fff;
+            font: 600 16px 'Poppins', sans-serif;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 8px 24px rgba(20, 86, 200, 0.45);
+            transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+        }
+
+        .btn-primary-record:hover {
+            transform: scale(1.02);
+            filter: brightness(1.1);
+            box-shadow: 0 12px 32px rgba(60, 155, 255, 0.5);
+        }
+
+        .btn-secondary {
+            height: 44px;
+            padding: 0 24px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #CFE5FF;
+            font: 500 14px 'Poppins', sans-serif;
+            cursor: pointer;
+            transition: background 0.15s ease, border-color 0.15s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.45);
+        }
+
+        .record-options {
+            background: rgba(0, 0, 0, 0.28);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 12px 18px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .toggle-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #C3DBFF;
+            font-size: 13px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .toggle-option input[type="checkbox"] {
+            width: 17px;
+            height: 17px;
+            cursor: pointer;
+            accent-color: #3C9BFF;
+        }
+
+        .shortcuts-legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            font-size: 11px;
+            color: #7AA2D8;
+            margin-bottom: 20px;
+        }
+
+        .shortcuts-legend kbd {
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 2px 7px;
+            border-radius: 6px;
+            font-family: inherit;
+            color: #FFFFFF;
+        }
+
+        .start-back-link {
+            color: #7CD0FF;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: opacity 0.15s ease;
+        }
+
+        .start-back-link:hover {
+            text-decoration: underline;
+            opacity: 0.85;
+        }
+
+        /* Floating Record HUD & Controls */
+        #record-hud {
+            position: fixed;
+            top: 20px;
+            right: 24px;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(6, 22, 51, 0.85);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            padding: 6px 12px;
+            border-radius: 28px;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        #record-hud button,
+        #record-hud a {
+            background: transparent;
+            border: 0;
+            color: #CFE5FF;
+            padding: 6px 12px;
+            border-radius: 14px;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+            transition: background 0.15s ease, color 0.15s ease;
+        }
+
+        #record-hud button:hover,
+        #record-hud a:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #FFFFFF;
+        }
+
+        /* Clean Screen Recording Mode */
+        body.hide-controls #record-hud,
+        body.hide-controls #cap,
+        body.hide-controls #bar,
+        body.hide-controls #start,
+        body.hide-controls #countdown-overlay,
+        body.hide-controls #end-overlay {
+            display: none !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
+
+        body.hide-controls,
+        body.hide-controls * {
+            cursor: none !important;
+        }
+
+        /* Auto-hide when mouse is idle during playback */
+        body.mouse-idle #record-hud {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-8px);
+        }
+
+        body.mouse-idle {
+            cursor: none;
+        }
+
+        /* 3-Second Recording Countdown Overlay */
+        #countdown-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 95;
+            background: #030C1E;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            color: #FFFFFF;
+            transition: opacity 0.3s ease;
+        }
+
+        #countdown-overlay.hidden {
+            display: none;
+        }
+
+        #countdown-num {
+            font-size: 120px;
+            font-weight: 700;
+            color: #7CD0FF;
+            text-shadow: 0 0 50px rgba(124, 208, 255, 0.6);
+            line-height: 1;
+        }
+
+        .countdown-label {
+            font-size: 16px;
+            color: #9FC2EE;
+            letter-spacing: 0.08em;
+        }
+
+        /* Recording Mode Toast Notification */
+        #record-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(6, 22, 51, 0.94);
+            border: 1px solid rgba(124, 208, 255, 0.35);
+            color: #FFFFFF;
+            padding: 10px 22px;
+            border-radius: 24px;
+            font-size: 13px;
+            font-weight: 500;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        #record-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-6px);
+        }
+
+        /* End Screen Overlay */
+        #end-overlay {
+            position: fixed;
+            bottom: 36px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            z-index: 50;
+            background: rgba(6, 22, 51, 0.9);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(124, 208, 255, 0.3);
+            border-radius: 28px;
+            padding: 10px 22px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        #end-overlay.visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(0);
+        }
+    </style>
+</head>
+
+<body class="hold">
+    <svg width="0" height="0" style="position:absolute">
+        <defs>
+            <linearGradient id="wg" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#7CD0FF" />
+                <stop offset=".5" stop-color="#2F86F0" />
+                <stop offset="1" stop-color="#0B4DB8" />
+            </linearGradient>
+            <radialGradient id="gl2" cx=".35" cy=".3" r=".9">
+                <stop offset="0" stop-color="#fff" />
+                <stop offset="1" stop-color="#CFE5FF" />
+            </radialGradient>
+            <clipPath id="dp">
+                <path d="M100 8C100 8 22 98 22 150a78 78 0 0 0 156 0C178 98 100 8 100 8z" />
+            </clipPath>
+            <clipPath id="tb">
+                <path d="M52 70H148Q158 70 158 82V270Q158 296 132 296H68Q42 296 42 270V82Q42 70 52 70Z" />
+            </clipPath>
+            <linearGradient id="tw" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#7CD0FF" />
+                <stop offset="50%" stop-color="#2F86F0" />
+                <stop offset="100%" stop-color="#0B4DB8" />
+            </linearGradient>
+        </defs>
+    </svg>
+    <div id="clk" style="position:absolute;opacity:0"></div>
+    <div id="stage">
+
+        <!-- 1 · THE QUESTION  0.0 – 3.5 -->
+        <section class="scene"
+            style="--s:0;--d:4.0;background:radial-gradient(ellipse at 72% 50%,#14478f 0%,#0a2554 45%,#061633 100%)">
+            <div class="bubbles"></div>
+            <div class="ring"
+                style="--r:0;left:1600px;top:520px;width:900px;height:900px;border-color:rgba(124,208,255,.35)"></div>
+            <div class="ring"
+                style="--r:1.6;left:1600px;top:520px;width:900px;height:900px;border-color:rgba(124,208,255,.35)"></div>
+            <p class="a fade p"
+                style="--a:.15;left:140px;top:250px;font-size:46px;font-weight:300;color:#7CD0FF;letter-spacing:.04em">
+                Quick question.</p>
+            <h1 class="big p" style="left:140px;top:340px;font-size:128px">
+                <span class="a rise" style="--a:.5;display:block">How do you know</span>
+                <span class="a rise" style="--a:.95;display:block">you’re drinking</span>
+                <span class="a rise" style="--a:1.4;display:block;color:#7CD0FF">enough water?</span>
+            </h1>
+            <!-- Seamless Thought Bubble without square borders -->
+            <div class="a pop p" style="--a:.6;left:1320px;top:320px;width:560px;height:400px">
+                <div style="position:absolute;inset:0;animation:think 3.2s ease-in-out infinite">
+                    <svg width="560" height="400" viewBox="0 0 600 420"
+                        style="position:absolute;inset:0;overflow:visible">
+                        <defs>
+                            <linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0" stop-color="#1A5FC0" />
+                                <stop offset="100%" stop-color="#0C3270" />
+                            </linearGradient>
+                            <filter id="cloud-glow" x="-20%" y="-20%" width="140%" height="140%">
+                                <feDropShadow dx="0" dy="0" stdDeviation="16" flood-color="#7CD0FF"
+                                    flood-opacity="0.45" />
+                            </filter>
+                        </defs>
+                        <!-- Seamless Organic Cloud Outline: No Rectangles, No Square Lines -->
+                        <path d="M 140 295
+                                 C 85 285, 75 220, 105 178
+                                 C 90 128, 140 88, 195 105
+                                 C 230 60, 310 55, 355 90
+                                 C 405 65, 475 85, 495 135
+                                 C 545 150, 565 210, 535 255
+                                 C 555 305, 505 350, 455 340
+                                 C 415 365, 340 365, 300 345
+                                 C 260 365, 190 360, 160 330
+                                 C 140 330, 130 315, 140 295 Z" fill="url(#cg)" stroke="#7CD0FF" stroke-width="8"
+                            stroke-linejoin="round" filter="url(#cloud-glow)" />
+                    </svg>
+                    <div data-glass="0.62" style="position:absolute;left:115px;top:118px;width:125px;height:175px">
+                    </div>
+                    <span class="big"
+                        style="position:absolute;left:275px;top:65px;font-size:220px;color:#fff;animation:qp 1.6s ease-in-out infinite">?</span>
+                </div>
+                <!-- Smooth Round Thought Trail Bubbles -->
+                <div class="a pop p" style="--a:1.2;left:45px;top:372px">
+                    <span
+                        style="display:block;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#1A5FC0,#0C3270);border:4px solid #7CD0FF;box-shadow:0 0 16px rgba(124,208,255,.5)"></span>
+                </div>
+                <div class="a pop p" style="--a:1.4;left:8px;top:420px">
+                    <span
+                        style="display:block;width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#1A5FC0,#0C3270);border:3px solid #7CD0FF;box-shadow:0 0 12px rgba(124,208,255,.5)"></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2 · TWO GLASSES  3.5 – 8.8 -->
+        <section class="scene"
+            style="--s:3.5;--d:5.6;background:linear-gradient(160deg,#CFE6FF 0%,#F2F8FF 58%,#FFF1DC 100%);color:#0B2A5B">
+            <div class="a rise p"
+                style="--a:0;left:1540px;top:70px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,#FFE2B0 0%,rgba(255,226,176,.55) 45%,rgba(255,226,176,0) 70%)">
+            </div>
+            <p class="a rise p" id="ta"
+                style="--a:.2;left:140px;top:170px;font-size:92px;font-weight:600;line-height:1.1;letter-spacing:-.02em;animation:rise .9s cubic-bezier(.2,.8,.2,1) calc((var(--s) + .2)*var(--k)*1s) both,dim .6s ease calc((var(--s) + 2.5)*var(--k)*1s) forwards">
+                I drank two glasses<br>this morning.</p>
+            <div class="a pop p" style="--a:.5;left:1180px;top:200px;width:200px;height:275px">
+                <div data-glass="0.85" style="width:100%;height:100%"></div>
+            </div>
+            <div class="a pop p" style="--a:.8;left:1420px;top:200px;width:200px;height:275px">
+                <div data-glass="0.85" style="width:100%;height:100%"></div>
+            </div>
+            <p class="a rise p"
+                style="--a:2.7;left:140px;top:500px;font-size:62px;font-weight:400;color:#2F4F80;line-height:1.2">But
+                how much did I<br>really drink today?</p>
+            <div class="a pop p scr big" data-at="6.6" data-dur="1.9"
+                style="--a:3.1;left:140px;top:690px;font-size:150px;color:#1E6FE0">?,??? ml</div>
+            <div class="p" style="left:140px;right:140px;top:935px;height:4px;background:#C9DDF5;border-radius:2px">
+            </div>
+            <div class="p"
+                style="left:140px;right:140px;top:905px;display:flex;justify-content:space-between;font-size:22px;color:#2F4F80"
+                id="tl"></div>
+        </section>
+
+        <!-- 3 · LAZULI REVEAL  8.8 – 15.0 -->
+        <section class="scene"
+            style="--s:8.8;--d:6.6;background:linear-gradient(180deg,#6F9BD6 0%,#B8D3F2 55%,#E6F2FF 100%)">
+            <div class="bubbles"></div>
+            <div class="p"
+                style="left:-200px;top:520px;width:900px;height:260px;border-radius:50%;background:rgba(255,255,255,.4);filter:blur(60px)">
+            </div>
+            <div class="p"
+                style="left:1100px;top:-80px;width:900px;height:260px;border-radius:50%;background:rgba(255,255,255,.35);filter:blur(60px)">
+            </div>
+            <!-- Glowing pedestal for larger tumbler -->
+            <div class="p"
+                style="left:1180px;top:920px;width:660px;height:180px;border-radius:50%;background:radial-gradient(ellipse,rgba(124,208,255,0.7) 0%,rgba(30,111,224,0) 70%);filter:blur(24px);pointer-events:none">
+            </div>
+            <div class="ring" style="--r:0;left:1316px;top:960px;width:900px;height:360px"></div>
+            <div class="ring" style="--r:1.1;left:1316px;top:960px;width:900px;height:360px"></div>
+            
+            <!-- Hero Sized Tumbler -->
+            <div class="a up p" style="--a:.15;left:1060px;top:-30px;width:780px;height:1190px">
+                <img class="bob" src="lazuli.webp" alt="Lazuli smart tumbler"
+                    style="width:780px;height:1190px;filter:drop-shadow(0 50px 65px rgba(11,42,91,.42))">
+            </div>
+            
+            <div class="a fade p" style="--a:2.4;left:1450px;top:840px;width:0;height:0">
+                <div class="ring"
+                    style="--r:0;left:0;top:0;width:220px;height:220px;border-color:#7CD0FF;animation-duration:1.6s">
+                </div>
+            </div>
+            
+            <!-- Left Typography with clean margins -->
+            <h1 class="a wipe p"
+                style="--a:.9;left:130px;top:240px;font-size:180px;font-weight:300;letter-spacing:.26em;color:#0B2A5B;white-space:nowrap">
+                LAZULI</h1>
+            <p class="a fade p" style="--a:1.7;left:136px;top:460px;font-size:32px;letter-spacing:.5em;color:#1E4E9A">BY
+                ORBYTE</p>
+            <p class="a rise p"
+                style="--a:2;left:130px;top:570px;font-size:52px;font-weight:500;line-height:1.25;color:#0B2A5B;max-width:880px">
+                A smart tumbler that tracks<br>your water intake</p>
+            <p class="a rise p" style="--a:2.6;left:130px;top:710px;font-size:72px;font-weight:700;color:#1456C8">
+                automatically.
+                <span class="a grow p"
+                    style="--a:3.1;left:0;right:0;bottom:2px;height:8px;border-radius:4px;background:#7CD0FF;transform-origin:0 50%;z-index:-1"></span>
+            </p>
+            <div class="flash p"
+                style="inset:0;background:#fff;animation:flash 1s ease-out calc(var(--s)*var(--k)*1s) both;pointer-events:none">
+            </div>
+        </section>
+
+        <!-- 4 · THE APP  15.0 – 22.0 -->
+        <section class="scene"
+            style="--s:15.0;--d:7.4;background:radial-gradient(ellipse at 78% 50%,#1E6FE0 0%,#0B3A86 42%,#061633 100%)">
+            <div class="bubbles"></div>
+            <div class="scene" style="--s:15.0;--d:1.8">
+                <h2 class="big p" style="left:140px;top:380px;font-size:124px"><span class="a slide"
+                        style="--a:.1;display:block">How much</span><span class="a slide"
+                        style="--a:.35;display:block;color:#7CD0FF">you’ve drunk.</span></h2>
+            </div>
+            <div class="scene" style="--s:16.6;--d:1.6">
+                <h2 class="big p" style="left:140px;top:380px;font-size:124px"><span class="a slide"
+                        style="--a:.1;display:block">How much</span><span class="a slide"
+                        style="--a:.35;display:block;color:#7CD0FF">is left.</span></h2>
+            </div>
+            <div class="scene" style="--s:18.0;--d:1.8">
+                <h2 class="big p" style="left:140px;top:380px;font-size:124px"><span class="a slide"
+                        style="--a:.1;display:block">Reminds you</span><span class="a slide"
+                        style="--a:.35;display:block;color:#7CD0FF">when to drink.</span></h2>
+            </div>
+            <div class="scene" style="--s:19.6;--d:2.4">
+                <h2 class="big p" style="left:140px;top:380px;font-size:124px"><span class="a slide"
+                        style="--a:.1;display:block">Knows when</span><span class="a slide"
+                        style="--a:.35;display:block;color:#7CD0FF">it’s hot.</span></h2>
+            </div>
+
+            <!-- Authentic Mobile App Bezel matching index.html -->
+            <div class="a rise p"
+                style="--a:.2;left:1240px;top:50px;width:390px;height:844px;transform-origin:0 0;border-radius:54px;box-shadow:0 0 0 12px #0a1730,0 50px 120px rgba(0,0,0,.55);overflow:hidden;zoom:1.12;background:#BFE0FF">
+                
+                <!-- 4.1 Home Screen (15.0s – 16.8s) matching index.html -->
+                <div class="scene" style="--s:15.0;--d:1.8">
+                    <div class="screen" style="padding:46px 20px 80px;background:linear-gradient(180deg,#BFE0FF 0%,#E6F2FF 40%,#F2F8FF 100%)">
+                        <!-- Home Top Bar with Notif Bell -->
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+                            <div>
+                                <h3 style="margin:0;font-size:26px;font-weight:700;line-height:1.2;color:#0B2A5B">Stay hydrated</h3>
+                                <div style="font-size:13px;color:#2F4F80">Monday, 5 October</div>
+                            </div>
+                            <div style="width:42px;height:42px;border-radius:21px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(30,111,224,0.25);position:relative">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E6FE0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0" />
+                                </svg>
+                                <span style="position:absolute;top:8px;right:9px;width:8px;height:8px;border-radius:4px;background:#D9822B;border:2px solid #fff"></span>
+                            </div>
+                        </div>
+
+                        <!-- Weather Banner from index.html -->
+                        <div style="background:#fff;border-radius:18px;box-shadow:0 8px 24px rgba(30,111,224,0.12);padding:9px 12px;display:flex;gap:10px;align-items:center;margin-bottom:10px">
+                            <div style="width:34px;height:34px;border-radius:17px;background:#FFE7CC;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B85C00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="9" r="3.6" />
+                                    <path d="M12 1.5v2M12 14.5v2M4.5 9h2M17.5 9h2M6.7 3.7l1.4 1.4M15.9 12.9l1.4 1.4M17.3 3.7l-1.4 1.4M8.1 12.9l-1.4 1.4" />
+                                    <path d="M3 19.5c1.5-1.8 3-1.8 4.5 0s3 1.8 4.5 0 3-1.8 4.5 0 3 1.8 4.5 0" />
+                                </svg>
+                            </div>
+                            <div style="font-size:12px;line-height:1.3;color:#0B2A5B">
+                                <b style="font-size:13px">34°C, very hot today.</b><br>
+                                Time for a sip. Auto-tracking active!
+                            </div>
+                        </div>
+
+                        <!-- Droplet with Real Dual Waves (.w1, .w2), Ambient Halo (.gl), & Rising Bubbles (.bb) -->
+                        <div style="position:relative;width:310px;height:290px;margin:0 auto;display:flex;align-items:center;justify-content:center">
+                            <div class="gl" style="position:absolute;width:290px;height:290px;border-radius:145px;background:radial-gradient(circle,rgba(34,211,238,0.35) 0%,rgba(74,155,255,0.18) 45%,rgba(74,155,255,0) 70%)"></div>
+                            <svg width="240" height="288" viewBox="0 0 200 240" style="position:relative;filter:drop-shadow(0 20px 24px rgba(30,111,224,0.38))">
+                                <path d="M100 8 C100 8 22 98 22 150 a78 78 0 0 0 156 0 C178 98 100 8 100 8 Z" fill="url(#gl2)" stroke="#fff" stroke-width="3.5" />
+                                <g clip-path="url(#dp)">
+                                    <g style="animation:fillup 1.4s cubic-bezier(.3,.7,.2,1) calc((var(--s) + .15)*var(--k)*1s) both">
+                                        <g class="w2">
+                                            <path d="M-140 0 q17.5 -7 35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 V340 H-140 Z" fill="#8FD6FF" opacity="0.6" />
+                                        </g>
+                                        <g class="w1">
+                                            <path d="M-140 6 q17.5 -7 35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 V340 H-140 Z" fill="url(#wg)" />
+                                        </g>
+                                    </g>
+                                    <circle class="bb" cx="70" cy="205" r="4" fill="#fff" opacity="0.8" />
+                                    <circle class="bb" cx="118" cy="195" r="3" fill="#fff" opacity="0.8" style="animation-delay:1s" />
+                                    <circle class="bb" cx="95" cy="215" r="5" fill="#fff" opacity="0.8" style="animation-delay:2s" />
+                                </g>
+                                <path d="M56 126 C50 102 62 74 80 50" stroke="#fff" stroke-width="6.5" stroke-linecap="round" fill="none" opacity="0.85" />
+                                <circle cx="86" cy="40" r="3" fill="#fff" opacity="0.75" />
+                                <text x="100" y="152" text-anchor="middle" font-family="Poppins" font-weight="700" font-size="36" fill="#fff"><tspan class="cnt" data-from="0" data-to="1200" data-at="15.15" data-dur="1.2">0</tspan></text>
+                                <text x="100" y="174" text-anchor="middle" font-family="Poppins" font-weight="500" font-size="15" fill="#fff">ml</text>
+                            </svg>
+                        </div>
+
+                        <!-- Progress Stats -->
+                        <div style="text-align:center;margin-top:2px">
+                            <div style="font-size:15px;font-weight:700;color:#0B2A5B">60% of your 2,400 ml goal</div>
+                            <div style="font-size:12px;color:#2F4F80">1,200 ml drank · 1,200 ml to go</div>
+                        </div>
+                        <div style="display:flex;gap:10px;margin-top:10px">
+                            <div class="card" style="flex:1;padding:8px 12px;font-size:12px">
+                                <div style="color:#2F4F80">Last sip</div><b>2:10 PM</b>
+                            </div>
+                            <div class="card" style="flex:1;padding:8px 12px;font-size:12px">
+                                <div style="color:#2F4F80">Next reminder</div><b>3:30 PM</b>
+                            </div>
+                        </div>
+
+                        <div class="pnav" data-nav="0"></div>
+                    </div>
+                </div>
+
+                <!-- 4.2 Bottle Screen (16.6s – 22.0s) matching index.html -->
+                <div class="scene" style="--s:16.6;--d:5.4">
+                    <div class="screen" style="padding:46px 20px 80px;background:linear-gradient(180deg,#BFE0FF 0%,#E6F2FF 40%,#F2F8FF 100%)">
+                        <div>
+                            <h3 style="margin:0;font-size:26px;font-weight:700;line-height:1.2;color:#0B2A5B">My Orbyte</h3>
+                            <div style="font-size:13px;color:#2F4F80">Live from your tumbler</div>
+                        </div>
+
+                        <!-- Authentic Tumbler SVG with Handle, Lid, Measurement Ticks, and Dual Wave Animation -->
+                        <div style="position:relative;width:280px;height:310px;margin:12px auto 0;display:flex;align-items:center;justify-content:center">
+                            <div class="gl" style="position:absolute;width:260px;height:260px;border-radius:130px;background:radial-gradient(circle,rgba(34,211,238,0.3) 0%,rgba(74,155,255,0.15) 45%,rgba(74,155,255,0) 70%)"></div>
+                            <svg width="250" height="290" viewBox="0 0 230 310" style="position:relative;filter:drop-shadow(0 20px 24px rgba(20,86,200,0.35))">
+                                <!-- Bottle Handle -->
+                                <path d="M168 102 h14 a20 20 0 0 1 20 20 v30 a20 20 0 0 1 -20 20 h-14" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" opacity="0.9" />
+                                <g transform="translate(10,0)">
+                                    <path d="M52 70 H148 Q158 70 158 82 V270 Q158 296 132 296 H68 Q42 296 42 270 V82 Q42 70 52 70 Z" fill="rgba(255,255,255,0.7)" stroke="#fff" stroke-width="3.5" />
+                                    <g clip-path="url(#tb)">
+                                        <g style="transform:translateY(156px); transition: transform 0.5s ease;">
+                                            <g class="w2">
+                                                <path d="M-140 0 q17.5 -7 35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 V340 H-140 Z" fill="#8FD6FF" opacity="0.6" />
+                                            </g>
+                                            <g class="w1">
+                                                <path d="M-140 5 q17.5 -7 35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 V340 H-140 Z" fill="url(#tw)" />
+                                            </g>
+                                        </g>
+                                        <circle class="bb" cx="78" cy="280" r="4" fill="#fff" opacity="0.8" />
+                                        <circle class="bb" cx="120" cy="270" r="3" fill="#fff" opacity="0.8" style="animation-delay:1s" />
+                                        <circle class="bb" cx="98" cy="284" r="3.5" fill="#fff" opacity="0.75" style="animation-delay:1.8s" />
+                                    </g>
+                                    <rect x="38" y="46" width="124" height="26" rx="10" fill="#1E6FE0" stroke="#fff" stroke-width="3" />
+                                    <rect x="82" y="34" width="36" height="14" rx="6" fill="#4DB5FF" stroke="#fff" stroke-width="2" />
+                                    <path d="M58 96 C56 128 56 168 60 202" stroke="#fff" stroke-width="6.5" stroke-linecap="round" fill="none" opacity="0.85" />
+                                    <path d="M58 218 C59 236 60 250 64 262" stroke="#fff" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.5" />
+                                    <!-- Measurement ticks -->
+                                    <g stroke="#0B2A5B" stroke-width="1.5" opacity="0.55">
+                                        <line x1="148" y1="96" x2="140" y2="96" />
+                                        <line x1="148" y1="156" x2="140" y2="156" />
+                                        <line x1="148" y1="216" x2="140" y2="216" />
+                                        <line x1="148" y1="270" x2="140" y2="270" />
+                                    </g>
+                                </g>
+                            </svg>
+                        </div>
+
+                        <div style="text-align:center;margin-top:6px">
+                            <div style="font-size:13px;color:#2F4F80">Water remaining</div>
+                            <div style="font-size:42px;font-weight:700;line-height:1.1;color:#0B2A5B">
+                                <span class="cnt" data-from="750" data-to="450" data-at="16.75" data-dur="1.1">750</span>
+                                <span style="font-size:18px">ml</span>
+                            </div>
+                        </div>
+
+                        <!-- Live Status Cards from index.html -->
+                        <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">
+                            <div class="card" style="display:flex;align-items:center;gap:12px;padding:9px 14px">
+                                <div style="width:36px;height:36px;border-radius:18px;background:#F6E6D5;display:flex;align-items:center;justify-content:center">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7A4A1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M17.5 19H8a4 4 0 0 1-.6-7.96A5.5 5.5 0 0 1 18 9.5 4.8 4.8 0 0 1 17.5 19z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div style="font-size:11px;color:#2F4F80">Water temperature</div>
+                                    <b style="font-size:15px;color:#0B2A5B">24°C · Cold & Refreshing</b>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pnav" data-nav="1"></div>
+                    </div>
+                </div>
+
+                <!-- 4.3 Notification Drop Banner (18.0s – 19.8s) -->
+                <div class="scene" style="--s:18.0;--d:1.8">
+                    <div class="a drop p"
+                        style="--a:.1;left:14px;right:14px;top:46px;background:rgba(255,255,255,0.96);backdrop-filter:blur(16px);border-radius:24px;padding:14px 16px;display:flex;gap:12px;align-items:center;box-shadow:0 18px 45px rgba(11,42,91,.35);color:#0B2A5B;font-family:Poppins">
+                        <div style="width:44px;height:44px;border-radius:22px;background:linear-gradient(135deg,#1E6FE0,#0B4DB8);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 14px rgba(30,111,224,0.4)">
+                            <svg style="animation:shake .8s ease calc((var(--s) + .5)*var(--k)*1s) both" width="24"
+                                height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0" />
+                            </svg>
+                        </div>
+                        <div style="flex:1">
+                            <b style="font-size:15px;display:block">Time for a sip</b>
+                            <div style="font-size:12px;color:#2F4F80">No drink detected for 2 hours.</div>
+                        </div>
+                        <span style="font-size:11px;color:#2F4F80;background:#EAF4FF;padding:3px 8px;border-radius:10px">now</span>
+                    </div>
+                </div>
+
+                <!-- 4.4 Weather Alert Pop (19.6s – 22.0s) -->
+                <div class="scene" style="--s:19.6;--d:2.4;background:rgba(7,27,61,.45)">
+                    <div class="a pop p"
+                        style="--a:.1;left:20px;right:20px;top:220px;background:#fff;border-radius:30px;padding:26px 20px;text-align:center;color:#0B2A5B;font-family:Poppins;box-shadow:0 30px 60px rgba(0,0,0,.35)">
+                        <svg width="120" height="120" viewBox="0 0 120 120" fill="none" stroke="#E08A3C"
+                            stroke-width="6" stroke-linecap="round">
+                            <circle cx="60" cy="52" r="24" fill="#F6C38A" />
+                            <g style="transform-origin:60px 52px;animation:spin 14s linear infinite">
+                                <path
+                                    d="M60 8v10M60 86v10M16 52h10M94 52h10M29 21l7 7M84 76l7 7M91 21l-7 7M36 76l-7 7" />
+                            </g>
+                            <path d="M20 108c7-8 13-8 20 0s13 8 20 0 13-8 20 0 13 8 20 0" stroke="#C86B3A" />
+                        </svg>
+                        <div style="font-size:62px;font-weight:700;line-height:1.1;color:#0B2A5B">34°C</div>
+                        <div style="font-size:20px;font-weight:600;color:#B85C00">Very hot today</div>
+                        <div style="font-size:14px;color:#2F4F80;margin-top:8px">Drink now. Goal auto-boosted to 2,600 ml.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5 · WHO IT'S FOR  22.0 – 27.6 -->
+        <section class="scene"
+            style="--s:22;--d:6;background:linear-gradient(135deg,#F2F8FF 0%,#CFE6FF 100%);color:#0B2A5B">
+            <!-- Left Persona list -->
+            <div class="p" style="left:120px;top:170px;display:flex;flex-direction:column;gap:40px" id="rows"></div>
+
+            <!-- Right side: Clipart Tumbler + Dynamic Lifestyle Feature Cards (No repeated photo!) -->
+            <div class="a slider p" style="--a:.1;left:1100px;top:60px;width:740px;height:940px">
+                <!-- Glowing Base Ripple -->
+                <div style="position:absolute;left:180px;top:740px;width:380px;height:120px;border-radius:50%;background:radial-gradient(ellipse,rgba(30,111,224,0.35) 0%,rgba(30,111,224,0) 70%);filter:blur(18px)"></div>
+                
+                <!-- Vector Clipart Smart Tumbler -->
+                <div style="position:absolute;left:210px;top:100px;width:320px;height:680px;filter:drop-shadow(0 30px 45px rgba(11,42,91,0.32))">
+                    <svg width="320" height="680" viewBox="0 0 240 520" style="overflow:visible">
+                        <defs>
+                            <linearGradient id="clip_body" x1="0" y1="0" x2="1" y2="0">
+                                <stop offset="0%" stop-color="#EAF4FF" />
+                                <stop offset="35%" stop-color="#FFFFFF" />
+                                <stop offset="70%" stop-color="#CDE2FA" />
+                                <stop offset="100%" stop-color="#8BB8EA" />
+                            </linearGradient>
+                            <linearGradient id="clip_blue" x1="0" y1="0" x2="1" y2="1">
+                                <stop offset="0%" stop-color="#2D7FF9" />
+                                <stop offset="100%" stop-color="#0E429B" />
+                            </linearGradient>
+                            <clipPath id="clip_chamber">
+                                <rect x="52" y="150" width="136" height="240" rx="20" />
+                            </clipPath>
+                        </defs>
+                        <!-- Top Carry Loop Handle -->
+                        <path d="M 90 40 C 90 15, 150 15, 150 40 L 150 70 L 90 70 Z" fill="none" stroke="#1E6FE0" stroke-width="14" stroke-linejoin="round" />
+                        <rect x="75" y="65" width="90" height="30" rx="8" fill="#0B2A5B" />
+                        <!-- Tumbler Cap & Lip -->
+                        <rect x="44" y="92" width="152" height="40" rx="14" fill="url(#clip_blue)" stroke="#FFFFFF" stroke-width="3" />
+                        <rect x="50" y="128" width="140" height="12" rx="4" fill="#071B3D" opacity="0.6" />
+                        <!-- Tumbler Main Insulated Shell -->
+                        <path d="M 46 138 L 194 138 Q 200 138 200 155 L 190 440 Q 188 470 155 470 L 85 470 Q 52 470 50 440 L 40 155 Q 40 138 46 138 Z" fill="url(#clip_body)" stroke="#FFFFFF" stroke-width="4" />
+                        <!-- Measurement Water Chamber (Cutaway) -->
+                        <rect x="52" y="150" width="136" height="240" rx="20" fill="rgba(6,22,51,0.85)" stroke="#7CD0FF" stroke-width="3" />
+                        <!-- Clipped Animated Waves inside Clipart Tumbler -->
+                        <g clip-path="url(#clip_chamber)">
+                            <g style="transform:translateY(80px)">
+                                <g class="w2">
+                                    <path d="M-140 0 q17.5 -7 35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 V340 H-140 Z" fill="#7CD0FF" opacity="0.55" />
+                                </g>
+                                <g class="w1">
+                                    <path d="M-140 6 q17.5 -7 35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 t35 0 V340 H-140 Z" fill="#1E6FE0" />
+                                </g>
+                            </g>
+                            <circle class="bb" cx="90" cy="330" r="4" fill="#fff" opacity="0.8" />
+                            <circle class="bb" cx="140" cy="310" r="3" fill="#fff" opacity="0.8" style="animation-delay:1.2s" />
+                            <circle class="bb" cx="115" cy="350" r="5" fill="#fff" opacity="0.8" style="animation-delay:2s" />
+                            <!-- Measurement ticks on cutaway -->
+                            <line x1="60" y1="180" x2="75" y2="180" stroke="#7CD0FF" stroke-width="2" />
+                            <line x1="60" y1="230" x2="85" y2="230" stroke="#7CD0FF" stroke-width="3" />
+                            <line x1="60" y1="280" x2="75" y2="280" stroke="#7CD0FF" stroke-width="2" />
+                            <line x1="60" y1="330" x2="85" y2="330" stroke="#7CD0FF" stroke-width="3" />
+                        </g>
+                        <!-- Specular Curved Highlight -->
+                        <path d="M 60 160 L 56 420" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" opacity="0.75" />
+                        <!-- Smart Base with Glowing OLED Ring -->
+                        <rect x="42" y="440" width="156" height="44" rx="14" fill="#0A1E40" stroke="#2F86F0" stroke-width="3" />
+                        <rect x="80" y="450" width="80" height="24" rx="6" fill="#051025" />
+                        <text x="120" y="467" text-anchor="middle" font-family="Poppins" font-weight="700" font-size="13" fill="#7CD0FF">24°C · ᛒ</text>
+                    </svg>
+                </div>
+
+                <!-- Floating Lifestyle Persona Feature Badges -->
+                <!-- Badge 1: Busy People Sync -->
+                <div class="a pop persona-badge p" style="--a:.4;left:0;top:150px;width:340px">
+                    <div class="persona-badge-icon" style="color:#1E6FE0">💻</div>
+                    <div>
+                        <b style="font-size:16px;color:#0B2A5B;display:block">Desk Smart Sync</b>
+                        <span style="font-size:13px;color:#2F4F80">Silent reminder glow during meetings</span>
+                    </div>
+                </div>
+
+                <!-- Badge 2: Gym-goers Replenishment -->
+                <div class="a pop persona-badge p" style="--a:1.6;right:0;top:380px;width:340px">
+                    <div class="persona-badge-icon" style="color:#D9822B">⚡</div>
+                    <div>
+                        <b style="font-size:16px;color:#0B2A5B;display:block">Workout Intake</b>
+                        <span style="font-size:13px;color:#2F4F80">Auto-tracks rapid sweat recovery</span>
+                    </div>
+                </div>
+
+                <!-- Badge 3: Health & Wellness Tracking -->
+                <div class="a pop persona-badge p" style="--a:2.9;left:30px;top:620px;width:340px">
+                    <div class="persona-badge-icon" style="color:#E85D75">🩺</div>
+                    <div>
+                        <b style="font-size:16px;color:#0B2A5B;display:block">Health Precision</b>
+                        <span style="font-size:13px;color:#2F4F80">Continuous ml balance curve</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6 · CLOSE  27.6 – 30 -->
+        <section class="scene last"
+            style="--s:27.6;--d:3;background:linear-gradient(180deg,#5E8FD0 0%,#A9CBF0 55%,#E6F2FF 100%)">
+            <div class="bubbles"></div>
+            <!-- Grounding pedestal ring -->
+            <div class="p"
+                style="left:1200px;top:920px;width:660px;height:180px;border-radius:50%;background:radial-gradient(ellipse,rgba(124,208,255,0.7) 0%,rgba(30,111,224,0) 70%);filter:blur(24px);pointer-events:none">
+            </div>
+            <div class="ring" style="--r:0;left:1380px;top:960px;width:1000px;height:400px"></div>
+            <div class="ring" style="--r:1.2;left:1380px;top:960px;width:1000px;height:400px"></div>
+
+            <!-- Hero Sized Tumbler with perfect right placement -->
+            <div class="a up p" style="--a:.1;left:1120px;top:-30px;width:780px;height:1190px">
+                <img class="bob" src="lazuli.webp" alt="Lazuli smart tumbler"
+                    style="width:780px;height:1190px;filter:drop-shadow(0 50px 65px rgba(11,42,91,.42))">
+            </div>
+
+            <!-- Left Headline: Single unified color (#071B3D) & increased size -->
+            <h1 class="big p" style="left:110px;top:180px;font-size:146px;color:#071B3D;line-height:1.04">
+                <span class="a rise" style="--a:.3;display:block">Never guess</span>
+                <span class="a rise" style="--a:.75;display:block">your hydration.</span>
+            </h1>
+            <h2 class="a wipe p"
+                style="--a:1.4;left:116px;top:600px;font-size:108px;font-weight:300;letter-spacing:.28em;color:#0B2A5B">
+                LAZULI</h2>
+            <p class="a fade p" style="--a:2;left:122px;top:740px;font-size:32px;letter-spacing:.5em;color:#12408A">BY
+                ORBYTE</p>
+            <div class="flash p"
+                style="inset:0;background:#fff;animation:flash .9s ease-out calc(var(--s)*var(--k)*1s) both;pointer-events:none">
+            </div>
+        </section>
+    </div>
+
+    <div id="cap"></div>
+    <div id="bar"></div>
+
+    <!-- Floating HUD during playback -->
+    <div id="record-hud" style="display:none">
+        <button id="hud-playpause" title="Play / Pause (Space)">⏸ Pause</button>
+        <button id="hud-restart" title="Restart from beginning (R)">↺ Restart</button>
+        <button id="hud-fs" title="Toggle Fullscreen (F)">⛶ Fullscreen</button>
+        <button id="hud-hide" title="Hide All UI for Screen Recording (H)">👁 Hide UI (H)</button>
+        <a href="index.html" id="hud-back" title="Back to Orbyte App">← App</a>
+    </div>
+
+    <!-- Countdown Overlay for Screen Recording -->
+    <div id="countdown-overlay" class="hidden">
+        <div id="countdown-num">3</div>
+        <div class="countdown-label">Recording starts soon... (Press <b>H</b> for Clean Mode)</div>
+    </div>
+
+    <!-- Clean Recording Toast -->
+    <div id="record-toast"></div>
+
+    <!-- End of Infomercial Overlay -->
+    <div id="end-overlay">
+        <span style="font-size:14px;color:#CFE5FF;font-weight:600">Promo Complete</span>
+        <button id="end-replay-btn"
+            style="background:#1E6FE0;color:#fff;border:0;padding:6px 16px;border-radius:16px;font:inherit;cursor:pointer">↺
+            Replay</button>
+        <a href="index.html" style="color:#7CD0FF;text-decoration:none;font-size:13px">Back to App ›</a>
+    </div>
+
+    <!-- Start & Setup Dialog -->
+    <div id="start">
+        <div class="start-card">
+            <span class="start-badge">ORBYTE PRESENTATION</span>
+            <h1 class="start-title">LAZULI</h1>
+            <p class="start-sub">30-Second Motion Infomercial · Smart Hydration Companion</p>
+
+            <div class="start-actions">
+                <button id="btn-play-fs" class="btn-primary-record">
+                    <span style="font-size:18px">🎬</span>
+                    <span>Play Fullscreen (Record Mode)</span>
+                </button>
+                <button id="btn-play-win" class="btn-secondary">
+                    ▶ Play in Window
+                </button>
+            </div>
+
+            <div class="record-options">
+                <label class="toggle-option">
+                    <input type="checkbox" id="chk-countdown" checked>
+                    <span>⏱ 3-second countdown before playback (clean screen record buffer)</span>
+                </label>
+                <label class="toggle-option">
+                    <input type="checkbox" id="chk-clean-mode">
+                    <span>👁 Hide controls & cursor immediately (Press <b>H</b> to restore)</span>
+                </label>
+            </div>
+
+            <div class="shortcuts-legend">
+                <span><kbd>Space</kbd> Pause</span>
+                <span><kbd>F</kbd> Fullscreen</span>
+                <span><kbd>H</kbd> Hide Buttons</span>
+                <span><kbd>R</kbd> Restart</span>
+                <span><kbd>C</kbd> Captions</span>
+                <span><kbd>M</kbd>/<kbd>S</kbd> Audio</span>
+            </div>
+
+            <a href="index.html" class="start-back-link">← Return to Orbyte App</a>
+        </div>
+    </div>
+
+    <script>
+        const DUR = 30, SP = parseFloat(new URLSearchParams(location.search).get('speed')) || 1, K = 1 / SP;
+        document.documentElement.style.setProperty('--k', K);
+        const stage = document.getElementById('stage'), clk = document.getElementById('clk');
+        clk.style.animation = `fade ${DUR * K}s linear both`;
+        function fit() { const s = Math.min(innerWidth / 1920, innerHeight / 1080); stage.style.transform = `translate(${-960 * s}px,${-540 * s}px) scale(${s})` }
+        addEventListener('resize', fit); fit();
+        /* cue sheet: start, end, who, line (seconds at normal speed) */
+        const LINES = [[0, 3.5, 'YOU', 'Quick question. How do you know if you’re drinking enough water?'], [3.5, 8.8, 'IRISH', 'I drank two glasses this morning, but how much did I really drink today?'], [8.8, 15.0, 'YOU', 'That’s where LAZULI comes in! A smart tumbler that tracks your water intake automatically.'], [15.0, 22, 'IRISH', 'It shows how much you’ve drunk, how much is left, and reminds you when to drink. It even uses the weather to help you stay hydrated on hot days.'], [22, 27.6, 'YOU', 'Perfect for busy people, gym-goers, and those who need to track their water intake for health reasons.'], [27.6, 30, 'BOTH', 'LAZULI. Never guess your hydration!']];
+        const glass = (l, i) => `<svg viewBox="0 0 160 220" width="100%" height="100%" style="overflow:visible"><defs><clipPath id="gc${i}"><path d="M28 12H132L120 196Q119 208 107 208H53Q41 208 40 196Z"/></clipPath></defs><path d="M28 12H132L120 196Q119 208 107 208H53Q41 208 40 196Z" fill="rgba(255,255,255,.5)" stroke="#fff" stroke-width="5"/><g clip-path="url(#gc${i})"><g style="transform:translateY(${208 - 196 * l}px)"><g class="w2"><path d="M-70 0q17.5-7 35 0t35 0t35 0t35 0t35 0t35 0t35 0t35 0V300H-70z" fill="#8FD6FF" opacity=".6"/></g><g class="w1"><path d="M-70 5q17.5-7 35 0t35 0t35 0t35 0t35 0t35 0t35 0t35 0V300H-70z" fill="url(#wg)"/></g></g></g></svg>`;
+        document.querySelectorAll('[data-glass]').forEach((e, i) => e.innerHTML = glass(+e.dataset.glass, i));
+        const I = (d, s = 24) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+        const NAV = ['<path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>', '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/>', '<path d="M12 2.5C12 2.5 5 10 5 15a7 7 0 0 0 14 0c0-5-7-12.5-7-12.5z"/>', '<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>', '<circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8" stroke-dasharray="3.5 2.6"/>'];
+        document.querySelectorAll('.pnav').forEach(n => n.innerHTML = NAV.map((d, i) => `<i class="${i == 2 ? 'c' : (i == 0 && n.dataset.nav == '0' ? 'on' : '')}">${I(d, i == 2 ? 28 : 24)}</i>`).join(''));
+        const HRS = ['6 AM', '9 AM', '12 PM', '3 PM', '6 PM', '9 PM'];
+        document.getElementById('tl').innerHTML = HRS.map((h, i) => `<div class="a pop" style="--a:${.6 + i * .35};text-align:center;width:120px"><div style="margin:0 auto 10px;width:${i < 2 ? 40 : 34}px;height:${i < 2 ? 40 : 34}px;border-radius:50%;background:${i < 2 ? '#1E6FE0' : '#F2F8FF'};border:3px solid ${i < 2 ? '#1E6FE0' : '#8FB4E3'};color:#8FB4E3;font-weight:700;font-size:20px;line-height:${i < 2 ? 34 : 28}px">${i < 2 ? '' : '?'}</div>${h}</div>`).join('');
+        const SK = '#F1C7A4', NV = '#0B2A5B', BL = '#1E6FE0';
+        const ART = {
+            busy: `<svg viewBox="0 0 200 200" width="150" height="150"><circle cx="150" cy="44" r="25" fill="#fff" stroke="${BL}" stroke-width="5"/><path d="M150 30v14" stroke="${BL}" stroke-width="5" stroke-linecap="round"/><path d="M150 44h13" stroke="${BL}" stroke-width="5" stroke-linecap="round" style="transform-origin:150px 44px;animation:spin 5s linear infinite"/><rect x="18" y="164" width="164" height="8" rx="4" fill="${NV}"/><rect x="44" y="108" width="46" height="58" rx="16" fill="${BL}"/><circle cx="68" cy="82" r="20" fill="${SK}"/><path d="M48 78A20 20 0 0 1 88 78Q78 64 68 66Q56 66 48 78Z" fill="${NV}"/><path d="M84 122L112 140" stroke="${SK}" stroke-width="10" stroke-linecap="round"/><rect x="108" y="100" width="62" height="46" rx="5" fill="${NV}"/><rect x="114" y="106" width="50" height="34" rx="3" fill="#7CD0FF"/><rect x="100" y="146" width="80" height="10" rx="5" fill="#4D6A96"/></svg>`,
+            gym: `<svg viewBox="0 0 200 200" width="150" height="150"><rect x="20" y="176" width="160" height="8" rx="4" fill="#C9DDF5"/><g class="bob"><rect x="82" y="130" width="14" height="48" rx="6" fill="${NV}"/><rect x="104" y="130" width="14" height="48" rx="6" fill="${NV}"/><rect x="78" y="78" width="44" height="60" rx="16" fill="${BL}"/><circle cx="100" cy="58" r="18" fill="${SK}"/><path d="M82 54A18 18 0 0 1 118 54Q109 42 100 44Q90 44 82 54Z" fill="${NV}"/><path d="M84 88L66 46M116 88L134 46" stroke="${SK}" stroke-width="10" stroke-linecap="round"/><rect x="40" y="34" width="120" height="8" rx="4" fill="${NV}"/><rect x="32" y="20" width="14" height="36" rx="5" fill="${BL}"/><rect x="154" y="20" width="14" height="36" rx="5" fill="${BL}"/></g></svg>`,
+            health: `<svg viewBox="0 0 200 200" width="150" height="150"><g class="beat"><path d="M100 176C60 148 22 118 22 74C22 46 42 28 66 28C82 28 94 36 100 48C106 36 118 28 134 28C158 28 178 46 178 74C178 118 140 148 100 176Z" fill="#E88E98"/><path d="M34 96H68l14-30 22 56 14-26h28" stroke="#fff" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g><path d="M162 112C162 112 142 136 142 150a20 20 0 0 0 40 0c0-14-20-38-20-38z" fill="#4A9BFF" stroke="#fff" stroke-width="5"/></svg>`
+        };
+        const RO = [['Busy people', ART.busy, .2, 1.5], ['Gym-goers', ART.gym, 1.5, 2.8], ['Health reasons', ART.health, 2.8, 0]];
+        document.getElementById('rows').innerHTML = RO.map(([t, svg, a, b]) => `<div style="--a:${a};--b:${b};display:flex;align-items:center;gap:44px;animation:rise .9s cubic-bezier(.2,.8,.2,1) calc((var(--s) + var(--a))*var(--k)*1s) both${b ? `,dim .6s ease calc((var(--s) + var(--b))*var(--k)*1s) forwards` : ''}"><div style="width:200px;height:200px;border-radius:50%;background:linear-gradient(145deg,#fff,#DCEBFA);display:flex;align-items:center;justify-content:center;box-shadow:0 20px 50px rgba(30,111,224,.25)">${svg}</div><div class="big" style="font-size:112px">${t}</div></div>`).join('');
+        document.querySelectorAll('.bubbles').forEach(b => { for (let i = 0; i < 16; i++) { const s = document.createElement('span'), z = 10 + Math.random() * 44; s.style.cssText = `left:${Math.random() * 1900}px;width:${z}px;height:${z}px;animation-duration:${7 + Math.random() * 7}s;animation-delay:${-Math.random() * 12}s`; b.appendChild(s) } });
+        let anim = null, lastT = 0, evi = 0, ctx, bus, msc, sfx, dly, nb, mM = false, mS = false;
+        const ease = p => 1 - Math.pow(1 - p, 3), hz = m => 440 * Math.pow(2, (m - 69) / 12);
+        function buildBus() {
+            if (bus) bus.disconnect();
+            bus = ctx.createGain(); bus.connect(ctx.destination);
+            msc = ctx.createGain(); msc.gain.value = mM ? 0 : .34; msc.connect(bus);
+            sfx = ctx.createGain(); sfx.gain.value = mS ? 0 : .9; sfx.connect(bus);
+            dly = ctx.createDelay(1); dly.delayTime.value = .36;
+            const fb = ctx.createGain(), lp = ctx.createBiquadFilter(), wet = ctx.createGain();
+            fb.gain.value = .36; lp.type = 'lowpass'; lp.frequency.value = 2400; wet.gain.value = .55;
+            dly.connect(lp); lp.connect(fb); fb.connect(dly); lp.connect(wet); wet.connect(msc);
+        }
+        function initAudio() {
+            if (ctx) return;
+            try { ctx = new (window.AudioContext || window.webkitAudioContext)() } catch (e) { return }
+            nb = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
+            const d = nb.getChannelData(0); for (let i = 0; i < d.length; i++)d[i] = Math.random() * 2 - 1;
+            buildBus();
+        }
+        function tone(o) {
+            const t0 = ctx.currentTime + (o.t || 0), os = ctx.createOscillator(), g = ctx.createGain();
+            os.type = o.type || 'sine'; os.frequency.setValueAtTime(o.f, t0);
+            if (o.f2) os.frequency.exponentialRampToValueAtTime(o.f2, t0 + o.d);
+            g.gain.setValueAtTime(.0001, t0); g.gain.exponentialRampToValueAtTime(o.g, t0 + (o.a || .005)); g.gain.exponentialRampToValueAtTime(.0001, t0 + o.d);
+            os.connect(g); g.connect(o.out || sfx);
+            if (o.send) { const s = ctx.createGain(); s.gain.value = o.send; g.connect(s); s.connect(dly) }
+            os.start(t0); os.stop(t0 + o.d + .05);
+        }
+        function noise(o) {
+            const t0 = ctx.currentTime + (o.t || 0), src = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+            src.buffer = nb; src.loop = true; f.type = o.type || 'bandpass'; f.Q.value = o.q || 1;
+            f.frequency.setValueAtTime(o.f1, t0); f.frequency.exponentialRampToValueAtTime(o.f2 || o.f1, t0 + o.d);
+            g.gain.setValueAtTime(.0001, t0); g.gain.exponentialRampToValueAtTime(o.g, t0 + (o.a || o.d * .4)); g.gain.exponentialRampToValueAtTime(.0001, t0 + o.d);
+            src.connect(f); f.connect(g); g.connect(o.out || sfx); src.start(t0, Math.random()); src.stop(t0 + o.d + .05);
+        }
+        const whoosh = (t, d, g, up = true) => noise({ t, d, f1: up ? 300 : 2600, f2: up ? 2800 : 300, q: .8, g, a: d * .45 });
+        const pop = (t, f, g) => tone({ t, f, f2: f * 2.2, d: .14, g });
+        const drip = () => { tone({ f: 1100, f2: 380, d: .22, g: .26, send: .3 }); tone({ t: .01, f: 2200, f2: 760, d: .12, g: .07 }) };
+        const bubble = () => tone({ f: 350 + Math.random() * 300, f2: 1000 + Math.random() * 600, d: .1, g: .07 });
+        const chime = (t, m, g) => { tone({ t, f: hz(m), d: 1.5, g, send: .5 }); tone({ t, f: hz(m) * 2.005, d: .9, g: g * .35 }) };
+        const tick = (t, f, g) => tone({ t, f, d: .05, g, type: 'triangle' });
+        const clink = (t, r) => { tone({ t, f: 2600 * r, d: .35, g: .1, send: .3 }); tone({ t, f: 3900 * r, d: .25, g: .05 }) };
+        const ping = () => tone({ f: 1560, d: 1, g: .12, send: .7 });
+        const ding = () => { tone({ f: 1318.5, d: .5, g: .16, send: .3 }); tone({ t: .12, f: 1760, d: .7, g: .16, send: .3 }) };
+        const pour = (t, d) => noise({ t, d, f1: 2500, f2: 3600, q: 2, g: .1, a: .15 });
+        const boom = (g) => { tone({ f: 90, f2: 34, d: 1.1, g, a: .01 }); noise({ d: .8, type: 'lowpass', f1: 900, f2: 120, g: g * .5, a: .01 }) };
+        const splash = (g) => { noise({ d: 1.2, f1: 3200, f2: 900, q: .6, g, a: .02 }); noise({ d: .8, type: 'highpass', f1: 5000, g: g * .4, a: .01 }); for (let i = 0; i < 6; i++)tone({ t: .05 + Math.random() * .5, f: 300 + Math.random() * 500, f2: 900 + Math.random() * 900, d: .12, g: .09 }) };
+        const riser = (d) => { noise({ d, f1: 200, f2: 5000, q: 1.2, g: .2, a: d * .9 }); tone({ f: 160, f2: 1200, d, g: .07, a: d * .9, type: 'triangle', send: .3 }) };
+        function padNote(m, dur, g, cut) {
+            const t0 = ctx.currentTime, lp = ctx.createBiquadFilter(), g1 = ctx.createGain(), f = hz(m);
+            lp.type = 'lowpass'; lp.frequency.value = cut;
+            g1.gain.setValueAtTime(.0001, t0); g1.gain.exponentialRampToValueAtTime(g, t0 + .7); g1.gain.setValueAtTime(g, t0 + dur - .2); g1.gain.exponentialRampToValueAtTime(.0001, t0 + dur + 1);
+            [-7, 7].forEach(c => { const o = ctx.createOscillator(); o.type = 'sawtooth'; o.frequency.value = f; o.detune.value = c; o.connect(lp); o.start(t0); o.stop(t0 + dur + 1.05) });
+            lp.connect(g1); g1.connect(msc); const s = ctx.createGain(); s.gain.value = .25; g1.connect(s); s.connect(dly);
+        }
+        const CH = [[50, 57, 62, 65], [46, 53, 57, 62], [50, 57, 62, 65], [43, 50, 55, 58], [53, 57, 60, 64], [48, 55, 60, 64], [50, 57, 60, 65], [46, 53, 57, 62], [53, 57, 60, 64], [48, 55, 60, 64], [50, 57, 60, 65], [46, 53, 57, 62], [53, 57, 60, 64], [53, 57, 60, 67]];
+        function bar(i) {
+            const c = CH[i], B = .55, cut = i < 4 ? 800 : i < 12 ? 1500 : 2200;
+            c.forEach(m => padNote(m, 2.3, i < 4 ? .05 : .065, cut));
+            padNote(c[0] - 12, 2.3, i < 4 ? .06 : .09, 400);
+            if (i < 4) [0, 2].forEach(b => tone({ t: b * B, f: hz(c[(b + 1) % 4] + 24), d: .6, g: .07, out: msc, send: .6 }));
+            else for (let k = 0; k < 8; k++)tone({ t: k * B / 2, f: hz(c[[0, 1, 2, 3, 2, 1, 2, 3][k]] + 12 + (k % 4 == 3 ? 12 : 0)), type: 'triangle', d: .5, g: i >= 6 && i < 12 ? .085 : .06, out: msc, send: .45 });
+            if (i >= 6 && i < 12) { for (let k = 0; k < 8; k++)noise({ t: k * B / 2, d: .06, type: 'highpass', f1: 7000, g: .03, a: .01, out: msc });[0, 2].forEach(b => tone({ t: b * B, f: 110, f2: 42, d: .28, g: .14, out: msc })) }
+        }
+        const EV = [], E = (t, f) => EV.push([t, f]);
+        for (let i = 0; i < 14; i++)E(i * 2.2, () => bar(i));
+        /* sound effects, timed to the visuals (seconds at normal speed) */
+        [.2, 1.3, 2.4, 3.5].forEach(t => E(t, drip));
+        [.5, .95, 1.4].forEach(t => E(t, () => whoosh(0, .5, .09)));
+        [[.9, 360], [1.25, 300], [1.4, 260]].forEach(([t, f]) => E(t, () => pop(0, f, .25)));
+        [1.9, 2.9, 3.8, 9.4, 10.2, 12.1, 28.2, 28.9].forEach(t => E(t, bubble));
+        E(3.4, () => whoosh(0, .6, .16)); E(3.7, () => { whoosh(0, .5, .08); chime(0, 84, .08) });
+        E(3.85, () => pour(0, .5)); E(4, () => clink(0, 1)); E(4.3, () => clink(0, 1.25));
+        for (let i = 0; i < 6; i++)E(4.1 + i * .35, () => pop(0, 500 + i * 70, .1));
+        E(6.2, () => whoosh(0, .5, .12)); E(6.6, () => pop(0, 380, .3));
+        for (let k = 0; k < 19; k++)E(6.6 + k * .1, () => tick(0, 1300 + Math.random() * 700, .05));
+        E(7.6, () => riser(1.2)); E(8.8, () => { boom(.55); splash(.4) }); E(8.95, () => whoosh(0, .9, .22));
+        E(9.7, () => chime(0, 81, .14)); E(9.85, () => chime(0, 88, .12)); E(10.5, () => chime(0, 76, .1));
+        E(10.8, () => whoosh(0, .5, .1)); E(11.4, () => whoosh(0, .5, .1)); E(11.9, () => chime(0, 84, .1));
+        E(11.2, ping); E(12.8, ping); E(13.6, ping);
+        E(14.85, () => whoosh(0, .6, .16)); E(15.1, () => whoosh(0, .7, .14));
+        E(15.15, () => noise({ d: 1.3, f1: 500, f2: 1500, q: .7, g: .1 }));
+        for (let k = 0; k < 13; k++)E(15.15 + k * .09, () => tick(0, 900 + k * 55, .045));
+        E(16.5, () => whoosh(0, .4, .14)); E(16.7, () => pop(0, 420, .25));
+        for (let k = 0; k < 11; k++)E(16.75 + k * .09, () => tick(0, 1800 - k * 65, .045));
+        E(17.95, () => whoosh(0, .4, .08)); E(18.15, ding);
+        [18.6, 18.7, 18.8].forEach(t => E(t, () => tone({ f: 2093, d: .35, g: .07, send: .3 })));
+        E(19.5, () => whoosh(0, .5, .12)); E(19.75, () => { pop(0, 300, .35); tone({ f: 220, f2: 440, d: 1.2, g: .1, a: .5, send: .4 }) }); E(19.95, () => chime(0, 72, .1));
+        E(21.85, () => whoosh(0, .6, .18)); E(22.1, () => whoosh(0, .7, .12, false));
+        [[22.2, 84], [23.5, 88], [24.8, 91]].forEach(([t, m]) => E(t, () => { pop(0, 420, .25); chime(0, m, .14) }));
+        E(27, () => riser(.7)); E(27.6, () => { boom(.5); splash(.35) }); E(27.75, () => whoosh(0, .8, .2));
+        E(27.9, () => whoosh(0, .4, .1)); E(28.35, () => whoosh(0, .4, .1));
+        [81, 84, 88, 91].forEach((m, i) => E(29 + i * .12, () => chime(0, m, .12))); E(29.6, () => chime(0, 76, .1));
+        E(30.3, () => bus.gain.setTargetAtTime(0, ctx.currentTime + .3, .9));
+        EV.sort((a, b) => a[0] - b[0]);
+        const cnt = [...document.querySelectorAll('.cnt')], scr = document.querySelector('.scr'), cap = document.getElementById('cap'), bar_ = document.getElementById('bar'), st = document.getElementById('start');
+        const hud = document.getElementById('record-hud');
+        const hudPlayPause = document.getElementById('hud-playpause');
+        const hudRestart = document.getElementById('hud-restart');
+        const hudFs = document.getElementById('hud-fs');
+        const hudHide = document.getElementById('hud-hide');
+        const countdownOverlay = document.getElementById('countdown-overlay');
+        const countdownNum = document.getElementById('countdown-num');
+        const recordToast = document.getElementById('record-toast');
+        const endOverlay = document.getElementById('end-overlay');
+        const endReplayBtn = document.getElementById('end-replay-btn');
+        const btnPlayFs = document.getElementById('btn-play-fs');
+        const btnPlayWin = document.getElementById('btn-play-win');
+        const chkCountdown = document.getElementById('chk-countdown');
+        const chkCleanMode = document.getElementById('chk-clean-mode');
+
+        let isEnded = false;
+
+        function showToast(msg) {
+            recordToast.textContent = msg;
+            recordToast.classList.add('show');
+            setTimeout(() => recordToast.classList.remove('show'), 2200);
+        }
+
+        function toggleHideControls() {
+            const hidden = document.body.classList.toggle('hide-controls');
+            showToast(hidden ? '🎬 Controls & Cursor Hidden · Press H to show' : '👁 Controls Visible');
+        }
+
+        function tick_() {
+            anim = anim || clk.getAnimations()[0];
+            const t = anim ? anim.currentTime / 1000 / K : 0;
+            cnt.forEach(e => { const p = Math.min(1, Math.max(0, (t - +e.dataset.at) / +e.dataset.dur)), f = +e.dataset.from, o = +e.dataset.to; e.textContent = Math.round(f + (o - f) * ease(p)).toLocaleString('en-US') });
+            const a = +scr.dataset.at, d = +scr.dataset.dur;
+            scr.textContent = (t > a && t < a + d) ? (Math.floor(1000 + Math.random() * 8999)).toLocaleString('en-US') + ' ml' : '?,??? ml';
+            const L = LINES.find(l => t >= l[0] && t < l[1]) || LINES[5];
+            cap.innerHTML = `<b>${L[2]}</b>${L[3]}`; bar_.style.width = Math.min(100, t / DUR * 100) + '%';
+            if (ctx) {
+                if (t < lastT - .3) { evi = 0; buildBus() }
+                while (EV[evi] && EV[evi][0] <= t) { if (t - EV[evi][0] < 1.2) EV[evi][1](); evi++ }
+            }
+
+            // Detect end of infomercial
+            if (t >= DUR && !isEnded) {
+                isEnded = true;
+                endOverlay.classList.add('visible');
+            }
+
+            lastT = t; requestAnimationFrame(tick_);
+        }
+
+        function hold(h) {
+            document.body.classList.toggle('hold', h);
+            if (ctx) h ? ctx.suspend() : ctx.resume();
+            if (hudPlayPause) hudPlayPause.textContent = h ? '▶ Resume' : '⏸ Pause';
+        }
+
+        function startPlayback() {
+            st.style.display = 'none';
+            hud.style.display = 'flex';
+            endOverlay.classList.remove('visible');
+            isEnded = false;
+            initAudio();
+            if (ctx) ctx.resume();
+            document.body.classList.remove('hold');
+            if (hudPlayPause) hudPlayPause.textContent = '⏸ Pause';
+        }
+
+        function launchWithCountdown(cb) {
+            if (!chkCountdown.checked) {
+                cb();
+                return;
+            }
+            countdownOverlay.classList.remove('hidden');
+            let count = 3;
+            countdownNum.textContent = count;
+            const iv = setInterval(() => {
+                count--;
+                if (count > 0) {
+                    countdownNum.textContent = count;
+                } else {
+                    clearInterval(iv);
+                    countdownOverlay.classList.add('hidden');
+                    cb();
+                }
+            }, 900);
+        }
+
+        function playFullscreenMode() {
+            if (chkCleanMode.checked) {
+                document.body.classList.add('hide-controls');
+            }
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => { });
+            }
+            st.style.display = 'none';
+            launchWithCountdown(() => {
+                startPlayback();
+            });
+        }
+
+        function playWindowMode() {
+            if (chkCleanMode.checked) {
+                document.body.classList.add('hide-controls');
+            }
+            st.style.display = 'none';
+            launchWithCountdown(() => {
+                startPlayback();
+            });
+        }
+
+        function restart() {
+            endOverlay.classList.remove('visible');
+            isEnded = false;
+            st.style.display = 'none';
+            initAudio();
+            if (ctx) ctx.resume();
+            document.getAnimations().forEach(a => { a.currentTime = 0 });
+            document.body.classList.remove('hold');
+            if (hudPlayPause) hudPlayPause.textContent = '⏸ Pause';
+        }
+
+        btnPlayFs.onclick = playFullscreenMode;
+        btnPlayWin.onclick = playWindowMode;
+        endReplayBtn.onclick = restart;
+        hudPlayPause.onclick = () => hold(!document.body.classList.contains('hold'));
+        hudRestart.onclick = restart;
+        hudFs.onclick = () => document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
+        hudHide.onclick = toggleHideControls;
+
+        // Auto-hide HUD when mouse is idle
+        let mouseTimer = null;
+        addEventListener('mousemove', () => {
+            document.body.classList.remove('mouse-idle');
+            clearTimeout(mouseTimer);
+            if (!document.body.classList.contains('hold') && st.style.display === 'none') {
+                mouseTimer = setTimeout(() => {
+                    document.body.classList.add('mouse-idle');
+                }, 2200);
+            }
+        });
+
+        addEventListener('keydown', e => {
+            const k = e.key.toLowerCase();
+            if (e.code == 'Space') {
+                e.preventDefault();
+                st.style.display == 'none' ? hold(!document.body.classList.contains('hold')) : playFullscreenMode();
+            }
+            if (k == 'r') restart();
+            if (k == 'h') toggleHideControls();
+            if (k == 'c') document.body.classList.toggle('cc');
+            if (k == 'm') { mM = !mM; if (ctx) msc.gain.value = mM ? 0 : .34; showToast(mM ? 'Music Muted' : 'Music On'); }
+            if (k == 's') { mS = !mS; if (ctx) sfx.gain.value = mS ? 0 : .9; showToast(mS ? 'SFX Muted' : 'SFX On'); }
+            if (k == 'f') document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
+        });
+        requestAnimationFrame(tick_);
+    </script>
+</body>
+
+</html>
